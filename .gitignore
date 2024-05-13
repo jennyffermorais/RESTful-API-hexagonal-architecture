@@ -1,0 +1,6 @@
+# TypeScript REST API
+.DS_Store
+node_modules
+.env
+.env_dev
+
