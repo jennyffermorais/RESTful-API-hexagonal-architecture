@@ -1,10 +1,13 @@
-import App from './app';
-import dotenv from 'dotenv';
+import express from 'express'
+import { AppDataSource } from './data-source'
+import routes from './routes'
 
-dotenv.config();
+AppDataSource.initialize().then(() => {
+	const app = express()
 
-const port = process.env.APP_PORT || 8080;
+	app.use(express.json())
 
-App.listen(port, () => {
-   console.log(`Servidor executando na porta ${port}`);
-});
+	app.use(routes)
+
+	return app.listen(process.env.PORT)
+})
