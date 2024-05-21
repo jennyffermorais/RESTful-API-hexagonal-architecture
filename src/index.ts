@@ -1,24 +1,12 @@
 import 'reflect-metadata';
 import { AppDataSource } from '../data-source'; // ajuste o caminho conforme necessário
 import express from 'express';
-import { ProductController } from './adapters/in/api/controller/ProductController';
+import productRoute from './routers/productRoute';
+import clientRoute from './routers/clientRoute';
 
 const app = express();
-const productController = new ProductController();
 
-app.use(express.json());
-
-app.post('/products', (req, res) => productController.createProduct(req, res));
-app.put('/products/:id', (req, res) =>
-   productController.updateProduct(req, res)
-);
-app.delete('/products/:id', (req, res) =>
-   productController.deleteProduct(req, res)
-);
-app.get('/products/:id', (req, res) =>
-   productController.getProductById(req, res)
-);
-app.get('/products', (req, res) => productController.getAllProducts(req, res));
+app.use(express.json(), clientRoute, productRoute)
 
 AppDataSource.initialize()
    .then(() => {
