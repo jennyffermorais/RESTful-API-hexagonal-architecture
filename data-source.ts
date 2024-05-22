@@ -15,9 +15,7 @@ export const AppDataSource = new DataSource({
    username: process.env.MYSQL_USER,
    password: process.env.MYSQL_PASSWORD,
    database: process.env.MYSQL_DATABASE,
-   // entities: [Product, Client],
    entities: [`${__dirname}/**/model/*.{ts,js}`],
    migrations: [`${__dirname}/**/migrations/*.{ts,js}`],
-   // migrations: ['src/migration/**/*.ts'],
-   // synchronize: true,
+   synchronize: true,
 });
