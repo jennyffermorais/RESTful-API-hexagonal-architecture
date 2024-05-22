@@ -4,7 +4,7 @@ RUN apt-get update && apt-get install -y nano
 
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+COPY package.json ./
 
 RUN npm install
 
