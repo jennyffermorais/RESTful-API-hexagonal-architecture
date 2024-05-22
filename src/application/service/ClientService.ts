@@ -26,7 +26,7 @@ export class ClientService {
    public async deleteClient(id: number): Promise<boolean> {
       const result = await this.clientRepository.delete(id);
 
-      return result.affected !== undefined && result.affected > 0;
+      return result.affected !== undefined && result.affected! > 0;
    }
 
    public async getClientById(id: number): Promise<Client | null> {

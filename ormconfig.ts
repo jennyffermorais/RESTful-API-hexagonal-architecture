@@ -3,10 +3,12 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
+const port = process.env.MYSQL_PORT as unknown as number | undefined
+
 const config: ConnectionOptions = {
    type: 'mysql',
    host: 'localhost',
-   port: parseInt(process.env.MYSQL_PORT, 10),
+   port: port,
    username: process.env.MYSQL_USER,
    password: process.env.MYSQL_PASSWORD,
    database: process.env.MYSQL_DATABASE,
