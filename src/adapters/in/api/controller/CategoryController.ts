@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { CategoryService } from 'src/application/service/CategoryService';
+import { CategoryService } from '../../../../application/service/CategoryService';
 import { CreateCategoryDto, UpdateCategoryDto } from '../dto/CategoryDto';
 
 export class CategoryController {
