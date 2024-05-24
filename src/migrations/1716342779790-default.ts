@@ -8,6 +8,8 @@ export class Default1716342779790 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE \`product\` ADD \`name\` text NOT NULL`);
         await queryRunner.query(`ALTER TABLE \`client\` DROP COLUMN \`name\``);
         await queryRunner.query(`ALTER TABLE \`client\` ADD \`name\` text NOT NULL`);
+        await queryRunner.query(`ALTER TABLE \`category\` DROP COLUMN \`name\``);
+        await queryRunner.query(`ALTER TABLE \`category\` ADD \`name\` text NOT NULL`);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
@@ -15,6 +17,8 @@ export class Default1716342779790 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE \`client\` ADD \`name\` varchar(255) NOT NULL`);
         await queryRunner.query(`ALTER TABLE \`product\` DROP COLUMN \`name\``);
         await queryRunner.query(`ALTER TABLE \`product\` ADD \`name\` varchar(255) NOT NULL`);
+        await queryRunner.query(`ALTER TABLE \`category\` DROP COLUMN \`name\``);
+        await queryRunner.query(`ALTER TABLE \`category\` ADD \`name\` varchar(255) NOT NULL`);
     }
 
 }

@@ -26,7 +26,7 @@ export class CategoryService {
    public async deleteCategory(id: number): Promise<boolean> {
       const result = await this.categoryRepository.delete(id);
 
-      return result.affected !== undefined && result.affected > 0;
+      return result.affected !== undefined && result.affected! > 0;
    }
 
    public async getCategoryById(id: number): Promise<Category | null> {

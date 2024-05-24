@@ -1,5 +1,5 @@
 import express from 'express';
-import { CategoryController } from '../controller/CategoryController';
+import { CategoryController } from '../adapters/in/api/controller/CategoryController';
 
 import { Router } from 'express';
 
