@@ -19,6 +19,9 @@ router.delete('/clients/:id', (req, res) =>
 router.get('/clients/:id', (req, res) =>
    clientController.getClientById(req, res)
 );
+router.get('/clients/document/:documentNum', (req, res) =>
+   clientController.getClientByDocument(req, res)
+);
 router.get('/clients', (req, res) => clientController.getAllClients(req, res));
 
 

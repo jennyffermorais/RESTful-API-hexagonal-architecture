@@ -35,6 +35,12 @@ export class ClientService {
       return client || null;
    }
 
+   public async getClientByDocument(documentNum: string): Promise<Client | null> {
+      const client = await this.clientRepository.findOneBy({ documentNum });
+
+      return client || null;
+   }
+
    public async getAllClients(): Promise<Client[]> {
       return this.clientRepository.find();
    }
