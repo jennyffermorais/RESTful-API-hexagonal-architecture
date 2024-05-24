@@ -26,7 +26,7 @@ export class ProductService {
    public async deleteProduct(id: number): Promise<boolean> {
       const result = await this.productRepository.delete(id);
 
-      return result.affected !== undefined && result.affected > 0;
+      return result.affected !== undefined && result.affected! > 0;
    }
 
    public async getProductById(id: number): Promise<Product | null> {

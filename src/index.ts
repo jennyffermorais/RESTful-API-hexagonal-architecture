@@ -1,11 +1,12 @@
 import 'reflect-metadata';
 import { AppDataSource } from '../data-source'; // ajuste o caminho conforme necessário
 import express from 'express';
-import productRoute from './adapters/in/api/routes/productRouter';
+import productRoute from './routers/productRoute';
+import clientRoute from './routers/clientRoute';
 
 const app = express();
 
-app.use(express.json(), productRoute);
+app.use(express.json(), clientRoute, productRoute)
 
 AppDataSource.initialize()
    .then(() => {
