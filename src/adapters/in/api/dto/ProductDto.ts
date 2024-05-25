@@ -1,13 +1,15 @@
+import { Category } from "../../../../domain/model/Category";
+
 export class CreateProductDto {
    name: string;
    description: string;
    price: number;
-   category: string;
+   category: Category
 }
 
 export class UpdateProductDto {
    name?: string;
    description?: string;
    price?: number;
-   category?: string;
+   category?: Category;
 }

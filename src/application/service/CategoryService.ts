@@ -1,10 +1,12 @@
-import { AppDataSource } from '../../../data-source';
+import { AppDataSource } from '../../data-source';
 import { Category } from '../../domain/model/Category';
 
 export class CategoryService {
    private categoryRepository = AppDataSource.getRepository(Category);
 
-   public async createCategory(categoryData: Partial<Category>): Promise<Category> {
+   public async createCategory(
+      categoryData: Partial<Category>
+   ): Promise<Category> {
       const category = this.categoryRepository.create(categoryData);
       return this.categoryRepository.save(category);
    }

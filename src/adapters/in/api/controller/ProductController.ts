@@ -1,14 +1,24 @@
 import { Request, Response } from 'express';
 import { ProductService } from '../../../../application/service/ProductService';
 import { CreateProductDto, UpdateProductDto } from '../dto/ProductDto';
+import { CategoryService } from '../../../../application/service/CategoryService';
 
 export class ProductController {
    private productService = new ProductService();
+   private categoryService = new CategoryService();
 
    async createProduct(req: Request, res: Response): Promise<Response> {
-      const createProductDto: CreateProductDto = req.body;
-      const product = await this.productService.createProduct(createProductDto);
-      return res.status(201).json(product);
+      const { idCategory } = req.body;
+      const category = await this.categoryService.getCategoryById(idCategory);
+      if (category) {
+         const createProductDto: CreateProductDto = req.body;
+         const product = await this.productService.createProduct(
+            createProductDto
+         );
+         return res.status(201).json(product);
+      } else {
+         return res.status(404).json({ message: 'Category not found' });
+      }
    }
 
    async updateProduct(req: Request, res: Response): Promise<Response> {

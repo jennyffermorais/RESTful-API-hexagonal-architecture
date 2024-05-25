@@ -1,7 +1,6 @@
-import express from 'express';
-import { ClientController } from '../adapters/in/api/controller/ClientController';
-
 import { Router } from 'express';
+import * as express from 'express';
+import { ClientController } from '../adapters/in/api/controller/ClientController';
 
 const clientController = new ClientController();
 
@@ -20,7 +19,6 @@ router.get('/clients/:id', (req, res) =>
    clientController.getClientById(req, res)
 );
 router.get('/clients', (req, res) => clientController.getAllClients(req, res));
-
 
 // module.exports = router;
 

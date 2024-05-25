@@ -1,17 +1,13 @@
 FROM node:18-slim
 
-RUN apt-get update && apt-get install -y nano
+WORKDIR /usr/src/app
 
-WORKDIR /app
+COPY package*.json ./
 
-COPY package.json package-lock.json ./
-
-RUN npm install
+RUN npm i
 
 COPY . .
 
-RUN npm run build
+EXPOSE 3000
 
-#EXPOSE 3000
-
-CMD [ "npm", "start" ]
+CMD ["npm", "start"]

@@ -1,19 +1,15 @@
-import 'reflect-metadata';
-import { AppDataSource } from '../data-source'; // ajuste o caminho conforme necessário
-import express from 'express';
-import productRoute from './routers/productRoute';
-import clientRoute from './routers/clientRoute';
+import { app } from './app';
 
-const app = express();
+const PORT = 3000;
 
-app.use(express.json(), clientRoute, productRoute)
+const server = app.listen(PORT, () =>
+   console.log(`App listening on port ${PORT}`)
+);
 
-AppDataSource.initialize()
-   .then(() => {
-      app.listen(process.env.APP_PORT || 3000, () => {
-         console.log(
-            `Server is running on port ${process.env.APP_PORT || 3000}`
-         );
-      });
-   })
-   .catch((error) => console.log(error));
+/**
+ * Ao encerrar o processo, o app é finalizado também
+ */
+process.on('SIGINT', () => {
+   server.close();
+   console.log('App finalizado');
+});

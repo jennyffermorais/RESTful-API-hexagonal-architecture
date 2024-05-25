@@ -1,7 +1,6 @@
-# TypeScript REST API
-.DS_Store
-node_modules
-.env
-.env_dev
-dist
-package-lock.json
+.idea/
+.vscode/
+node_modules/
+build/
+tmp/
+temp/

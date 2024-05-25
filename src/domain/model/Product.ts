@@ -1,19 +1,20 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, ManyToOne } from "typeorm";
+import { Category } from "./Category";
 
-@Entity('product')
+@Entity()
 export class Product {
    @PrimaryGeneratedColumn()
    id: number;
 
-   @Column('text')
+   @Column()
    name: string;
 
-   @Column('text')
+   @Column()
    description: string;
 
-   @Column('decimal')
+   @Column({ type: 'float' })
    price: number;
 
-   @Column()
-   category: string;
+   @ManyToOne(() => Category)
+   category: Category;
 }
