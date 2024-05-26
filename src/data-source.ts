@@ -5,13 +5,13 @@ import { Category } from './domain/model/Category';
 
 export const AppDataSource = new DataSource({
    type: 'postgres',
-   host: 'app-node-18',
+   host: 'localhost',
    port: 5432,
    username: 'postgres',
    password: 'postgres',
    database: 'api-typescript',
    synchronize: true,
-   //dropSchema: true, // remover todas as tabelas e recriar
+   dropSchema: true, // remover todas as tabelas e recriar
    logging: false,
    entities: [Product, Category],
    migrations: [],
