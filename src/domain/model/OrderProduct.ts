@@ -25,4 +25,10 @@ export class OrderProduct extends BaseEntity {
   @OneToOne(() => Category)
   @JoinColumn()
   category: Category;
+
+  @Column("int")
+  quantity: number;
+
+  @Column("decimal", { precision: 10, scale: 2 })
+  unitPrice: number;
 }
