@@ -1,7 +1,5 @@
-import express from 'express';
-import { CategoryController } from '../adapters/in/api/controller/CategoryController';
-
-import { Router } from 'express';
+import express, { Router } from 'express';
+import { CategoryController } from '../adapters/driver/api/controller/CategoryController';
 
 const categoryController = new CategoryController();
 
