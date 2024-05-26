@@ -40,6 +40,15 @@ export class ClientController {
          return res.status(404).json({ message: 'Client not found' });
       }
    }
+   async getClientByDocument(req: Request, res: Response): Promise<Response> {
+      const documentNum = req.params.documentNum;
+      const client = await this.clientService.getClientByDocument(documentNum);
+      if (client) {
+         return res.json(client);
+      } else {
+         return res.status(404).json({ message: 'Client not found' });
+      }
+   }
 
    async getAllClients(req: Request, res: Response): Promise<Response> {
       const clients = await this.clientService.getAllClients();
