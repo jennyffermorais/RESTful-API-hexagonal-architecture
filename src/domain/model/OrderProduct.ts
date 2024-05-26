@@ -5,12 +5,13 @@ import {
   ManyToOne,
   JoinColumn,
   OneToOne,
+  BaseEntity,
 } from "typeorm";
 import { Order } from "./Order";
 import { Category } from "./Category";
 
 @Entity()
-export class OrderProduct {
+export class OrderProduct extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 

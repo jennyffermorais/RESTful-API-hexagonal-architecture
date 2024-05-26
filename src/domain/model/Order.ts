@@ -5,6 +5,7 @@ import {
   OneToMany,
   JoinColumn,
   OneToOne,
+  BaseEntity,
 } from "typeorm";
 import { OrderProduct } from "./OrderProduct";
 import { Client } from "./Client";
@@ -18,7 +19,7 @@ export enum PROCESS_STATUS {
 }
 
 @Entity("Order")
-export class Order {
+export class Order extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
