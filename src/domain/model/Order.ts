@@ -10,6 +10,13 @@ export enum PROCESS_STATUS {
   FINALIZADO,
 }
 
+export enum PAYMENT_STATUS {
+  PENDING,
+  PAID,
+  CANCELLED,
+  FAILED,
+}
+
 @Entity('Order')
 export class Order extends BaseEntity {
   @PrimaryGeneratedColumn()
@@ -33,6 +40,13 @@ export class Order extends BaseEntity {
 
   @Column('decimal', { precision: 10, scale: 2, nullable: true })
   totalAmount: number;
+
+  @Column({
+    type: 'enum',
+    enum: PAYMENT_STATUS,
+    default: PAYMENT_STATUS.PENDING,
+  })
+  paymentStatus: PAYMENT_STATUS;
 
   @Column(() => DateAudit, { prefix: '' })
   date_audit: DateAudit;
