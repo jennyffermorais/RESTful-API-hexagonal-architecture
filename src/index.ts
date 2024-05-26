@@ -25,3 +25,4 @@ AppDataSource.initialize()
    .catch((error) => console.log(error));
 
 app.use(express.json(), clientRoute, productRoute);
+app.use('/', (req, res) => res.send('restfull-api-hexagonal-architecture ok'));
