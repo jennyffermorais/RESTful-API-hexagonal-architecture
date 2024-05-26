@@ -1,19 +1,19 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('product')
 export class Product {
-   @PrimaryGeneratedColumn()
-   id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-   @Column('text')
-   name: string;
+  @Column('text')
+  name: string;
 
-   @Column('text')
-   description: string;
+  @Column('text')
+  description: string;
 
-   @Column('decimal')
-   price: number;
+  @Column('decimal')
+  price: number;
 
-   @Column()
-   category: string;
+  @Column()
+  category: string;
 }

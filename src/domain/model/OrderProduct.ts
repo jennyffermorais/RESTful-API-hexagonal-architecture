@@ -1,14 +1,6 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToOne,
-  JoinColumn,
-  OneToOne,
-  BaseEntity,
-} from "typeorm";
-import { Order } from "./Order";
-import { Category } from "./Category";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Category } from './Category';
+import { Order } from './Order';
 
 @Entity()
 export class OrderProduct extends BaseEntity {
@@ -26,9 +18,9 @@ export class OrderProduct extends BaseEntity {
   @JoinColumn()
   category: Category;
 
-  @Column("int")
+  @Column('int')
   quantity: number;
 
-  @Column("decimal", { precision: 10, scale: 2 })
+  @Column('decimal', { precision: 10, scale: 2 })
   unitPrice: number;
 }

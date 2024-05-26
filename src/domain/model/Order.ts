@@ -1,24 +1,16 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  OneToMany,
-  JoinColumn,
-  OneToOne,
-  BaseEntity,
-} from "typeorm";
-import { OrderProduct } from "./OrderProduct";
-import { Client } from "./Client";
-import { DateAudit } from "./embedded/date-audit";
+import { BaseEntity, Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Client } from './Client';
+import { OrderProduct } from './OrderProduct';
+import { DateAudit } from './embedded/date-audit';
 
 export enum PROCESS_STATUS {
   RECEBIDO,
-  "EM PREPARAÇÃO",
+  'EM PREPARAÇÃO',
   PRONTO,
   FINALIZADO,
 }
 
-@Entity("Order")
+@Entity('Order')
 export class Order extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -33,15 +25,15 @@ export class Order extends BaseEntity {
   client: Client;
 
   @Column({
-    type: "enum",
+    type: 'enum',
     enum: PROCESS_STATUS,
     default: PROCESS_STATUS.RECEBIDO,
   })
   processStage: PROCESS_STATUS;
 
-  @Column("decimal", { precision: 10, scale: 2, nullable: true })
+  @Column('decimal', { precision: 10, scale: 2, nullable: true })
   totalAmount: number;
 
-  @Column(() => DateAudit, { prefix: "" })
+  @Column(() => DateAudit, { prefix: '' })
   date_audit: DateAudit;
 }

@@ -1,19 +1,19 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('client')
 export class Client {
-   @PrimaryGeneratedColumn()
-   id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-   @Column('text')
-   name: string;
+  @Column('text')
+  name: string;
 
-   @Column('text')
-   documentNum: string;
+  @Column('text')
+  documentNum: string;
 
-   @Column('text')
-   dateBirthday: string;
+  @Column('text')
+  dateBirthday: string;
 
-   @Column()
-   email: string;
+  @Column()
+  email: string;
 }
