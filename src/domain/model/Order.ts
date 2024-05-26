@@ -39,6 +39,9 @@ export class Order extends BaseEntity {
   })
   processStage: PROCESS_STATUS;
 
+  @Column("decimal", { precision: 10, scale: 2, nullable: true })
+  totalAmount: number;
+
   @Column(() => DateAudit, { prefix: "" })
   date_audit: DateAudit;
 }
