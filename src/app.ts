@@ -3,10 +3,9 @@ import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as logger from 'morgan';
 
-import { connectServer } from './data-source';
+import { connectServer } from './config/data-source';
 import productRoute from './routers/productRoute';
 import categoryRoute from './routers/categoryRoute';
-
 
 /**
  * Cria a aplicação

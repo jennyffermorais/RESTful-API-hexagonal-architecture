@@ -1,4 +1,4 @@
-import { AppDataSource } from '../../data-source';
+import { AppDataSource } from '../../config/data-source';
 import { Client } from '../../domain/model/Client';
 
 export class ClientService {

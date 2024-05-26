@@ -1,4 +1,4 @@
-import { AppDataSource } from '../../data-source';
+import { AppDataSource } from '../../config/data-source';
 import { Category } from '../../domain/model/Category';
 
 export class CategoryService {
