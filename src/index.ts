@@ -1,12 +1,15 @@
+import 'reflect-metadata';
+import express from 'express';
+import { AppDataSource } from './data-source';
+
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
-import express from 'express';
 import * as logger from 'morgan';
-import 'reflect-metadata';
-import { AppDataSource } from './data-source';
+
 import clientRoute from './routers/clientRoute';
-import { paymentRoute } from './routers/paymentRoute';
+import categoryRoute from "./routers/categoryRoute";
 import productRoute from './routers/productRoute';
+import { paymentRoute } from './routers/paymentRoute';
 
 const app = express();
 
@@ -15,7 +18,7 @@ AppDataSource.initialize()
     app.use(cors.default());
     app.use(bodyParser.json());
     app.use(logger.default('dev'));
-    app.use(express.json(), clientRoute, productRoute, paymentRoute);
+    app.use(express.json(), categoryRoute, clientRoute, productRoute, paymentRoute);
     app.use('/', (req, res) => res.send('restfull-api-hexagonal-architecture ok'));
 
     app.listen(process.env.APP_PORT || 3000, () => {
