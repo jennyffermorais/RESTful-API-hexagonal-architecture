@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Category } from './Category';
 
 @Entity('product')
 export class Product {
@@ -14,6 +15,7 @@ export class Product {
   @Column('decimal')
   price: number;
 
-  @Column()
-  category: string;
+  @OneToOne(() => Category)
+  @JoinColumn()
+  category: Category;
 }
