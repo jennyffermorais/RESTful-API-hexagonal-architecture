@@ -4,14 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node dist/src/index",
+    "start": "node dist/index",
     "dev": "nodemon --exec ts-node ./src/index.ts",
     "migration:generate": "typeorm-ts-node-commonjs -d data-source.ts migration:generate ./src/migrations/default",
     "migration:run": "typeorm-ts-node-commonjs -d data-source.ts migration:run",
-    "build": "rm -rf ./dist && tsc",
+    "build": "rimraf ./dist && tsc",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "format": "prettier --write \"src/**/*.ts\"",
-    "type:check": "yarn run tsc"
+    "type:check": "yarn run tsc",
+    "docker:up": "rimraf dist && docker-compose up -d",
+    "docker:down": "docker-compose down"
   },
   "dependencies": {
     "body-parser": "^1.20.2",
@@ -36,6 +38,7 @@
     "@types/node": "^20.12.11",
     "prettier": "~3.2.5",
     "prettier-plugin-organize-imports": "~3.2.4",
+    "rimraf": "~5.0.7",
     "tsconfig-paths": "^4.2.0"
   }
 }

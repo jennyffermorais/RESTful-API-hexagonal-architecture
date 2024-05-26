@@ -1,7 +1,5 @@
-import express from 'express';
-import { ClientController } from '../adapters/in/api/controller/ClientController';
-
-import { Router } from 'express';
+import express, { Router } from 'express';
+import { ClientController } from '../adapters/driver/api/controller/ClientController';
 
 const clientController = new ClientController();
 

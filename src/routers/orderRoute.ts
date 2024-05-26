@@ -1,5 +1,5 @@
 import express from 'express';
-import { OrderController } from '../adapters/in/api/controller/OrderController';
+import { OrderController } from '../adapters/driver/api/controller/OrderController';
 
 const orderController = new OrderController();
 

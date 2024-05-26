@@ -1,7 +1,5 @@
-import express from 'express';
-import { ProductController } from '../adapters/in/api/controller/ProductController';
-
-import { Router } from 'express';
+import express, { Router } from 'express';
+import { ProductController } from '../adapters/driver/api/controller/ProductController';
 
 const productController = new ProductController();
 
