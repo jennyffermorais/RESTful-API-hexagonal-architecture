@@ -1,7 +1,9 @@
+import { CATEGORIES } from "../../../../driven/repository/Category";
+
 export class CreateCategoryDto {
-  name: string;
+  name: CATEGORIES | undefined;
 }
 
 export class UpdateCategoryDto {
-  name?: string;
+  name?: CATEGORIES | undefined;
 }

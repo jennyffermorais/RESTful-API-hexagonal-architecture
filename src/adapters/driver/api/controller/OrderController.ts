@@ -2,7 +2,10 @@ import { Request, Response } from 'express';
 import { PROCESS_STATUS } from '../../../driven/repository/Order';
 import { CreateOrderDto, UpdateOrderDto } from './dto/OrderDto';
 import { IOrderService } from '../../../../core/applications/ports/IOrderService';
+import { Delete, Get, Post, Put, Route, Tags, Body, Path, Query, Res, TsoaResponse } from 'tsoa';
 
+@Route("orders")
+@Tags("Order")
 export class OrderController {
 
   private orderService: IOrderService;
@@ -11,84 +14,110 @@ export class OrderController {
     this.orderService = orderService;
   }
 
-  public async create(req: Request, res: Response): Promise<Response> {
-    const createOrderDto: CreateOrderDto = req.body;
+  @Post("/")
+  public async create(
+    @Body() createOrderDto: CreateOrderDto,
+    @Res() notFoundResponse: TsoaResponse<404, { message: string }>,
+    @Res() internalErrorResponse: TsoaResponse<500, { message: string }>
+  ): Promise<any> {
     try {
       const order = await this.orderService.create(createOrderDto);
-      return res.status(201).json(order);
+      return order;
     } catch (error) {
-      return res.status(500).json({ message: 'Internal server error' });
+      return internalErrorResponse(500, { message: 'Internal server error' });
     }
   }
 
-  public async update(req: Request, res: Response): Promise<Response> {
-    const { id } = req.params;
-    const updateOrderDto: UpdateOrderDto = req.body;
+  @Put("/{id}")
+  public async update(
+    @Path() id: string,
+    @Body() updateOrderDto: UpdateOrderDto,
+    @Res() notFoundResponse: TsoaResponse<404, { message: string }>,
+    @Res() internalErrorResponse: TsoaResponse<500, { message: string }>
+  ): Promise<any> {
     try {
       const order = await this.orderService.update(Number(id), updateOrderDto);
       if (!order) {
-        return res.status(404).json({ message: 'Order not found' });
+        return notFoundResponse(404, { message: 'Order not found' });
       }
-      return res.status(200).json(order);
+      return order;
     } catch (error) {
-      return res.status(500).json({ message: 'Internal server error' });
+      return internalErrorResponse(500, { message: 'Internal server error' });
     }
   }
 
-  public async delete(req: Request, res: Response): Promise<Response> {
-    const { id } = req.params;
+  @Delete("/{id}")
+  public async delete(
+    @Path() id: string,
+    @Res() notFoundResponse: TsoaResponse<404, { message: string }>,
+    @Res() internalErrorResponse: TsoaResponse<500, { message: string }>
+  ): Promise<void> {
     try {
       const success = await this.orderService.delete(Number(id));
       if (!success) {
-        return res.status(404).json({ message: 'Order not found' });
+        return notFoundResponse(404, { message: 'Order not found' });
       }
-      return res.status(204).send();
     } catch (error) {
-      return res.status(500).json({ message: 'Internal server error' });
+      return internalErrorResponse(500, { message: 'Internal server error' });
     }
   }
 
-  public async getOrderById(req: Request, res: Response): Promise<Response> {
-    const { id } = req.params;
+  @Get("/{id}")
+  public async getOrderById(
+    @Path() id: string,
+    @Res() notFoundResponse: TsoaResponse<404, { message: string }>,
+    @Res() internalErrorResponse: TsoaResponse<500, { message: string }>
+  ): Promise<any> {
     try {
       const order = await this.orderService.getById(Number(id));
       if (!order) {
-        return res.status(404).json({ message: 'Order not found' });
+        return notFoundResponse(404, { message: 'Order not found' });
       }
-      return res.status(200).json(order);
+      return order;
     } catch (error) {
-      return res.status(500).json({ message: 'Internal server error' });
+      return internalErrorResponse(500, { message: 'Internal server error' });
     }
   }
 
-  public async getAllOrders(req: Request, res: Response): Promise<Response> {
+  @Get("/")
+  public async getAllOrders(
+    @Res() internalErrorResponse: TsoaResponse<500, { message: string }>
+  ): Promise<any> {
     try {
       const orders = await this.orderService.getAll();
       return res.status(200).json(orders);
     } catch (error) {
-      return res.status(500).json({ message: 'Internal server error' });
+      return internalErrorResponse(500, { message: 'Internal server error' });
     }
   }
 
-  public async getOrdersByStatus(req: Request, res: Response): Promise<Response> {
-    const { status } = req.params;
-
+  @Get("/status/{status}")
+  public async getOrdersByStatus(
+    @Path() status: string,
+    @Res() badRequestResponse: TsoaResponse<400, { message: string }>,
+    @Res() internalErrorResponse: TsoaResponse<500, { message: string }>
+  ): Promise<any> {
     if (!this.orderService.isValidStatus(status)) {
-      return res.status(400).json({ message: 'Invalid status' });
+      return badRequestResponse(400, { message: 'Invalid status' });
     }
 
     try {
       const orders = await this.orderService.getByStatus(status as PROCESS_STATUS);
       return res.status(200).json(orders);
     } catch (error) {
-      return res.status(500).json({ message: 'Internal server error' });
+      return internalErrorResponse(500, { message: 'Internal server error' });
     }
   }
 
-  public async getOrdersByCreationDate(req: Request, res: Response): Promise<Response> {
-    const { startDate, endDate } = req.query;
+  @Get("/creation-date")
+  public async getOrdersByCreationDate(
+    @Query() startDate: string,
+    @Query() endDate: string,
+    @Res() badRequestResponse: TsoaResponse<400, { message: string }>,
+    @Res() internalErrorResponse: TsoaResponse<500, { message: string }>
+  ): Promise<any> {
     if (!startDate || !endDate) {
-      return res.status(400).json({ message: 'Start date and end date are required' });
+      return badRequestResponse(400, { message: 'Start date and end date are required' });
     }
 
     try {
@@ -96,16 +125,21 @@ export class OrderController {
         new Date(startDate as string),
         new Date(endDate as string)
       );
-      return res.status(200).json(orders);
+      return orders;
     } catch (error) {
-      return res.status(500).json({ message: 'Internal server error' });
+      return internalErrorResponse(500, { message: 'Internal server error' });
     }
   }
 
-  public async getOrdersByUpdateDate(req: Request, res: Response): Promise<Response> {
-    const { startDate, endDate } = req.query;
+  @Get("/update-date")
+  public async getOrdersByUpdateDate(
+    @Query() startDate: string,
+    @Query() endDate: string,
+    @Res() badRequestResponse: TsoaResponse<400, { message: string }>,
+    @Res() internalErrorResponse: TsoaResponse<500, { message: string }>
+  ): Promise<any> {
     if (!startDate || !endDate) {
-      return res.status(400).json({ message: 'Start date and end date are required' });
+      return badRequestResponse(400, { message: 'Start date and end date are required' });
     }
 
     try {
@@ -113,9 +147,9 @@ export class OrderController {
         new Date(startDate as string),
         new Date(endDate as string)
       );
-      return res.status(200).json(orders);
+      return orders;
     } catch (error) {
-      return res.status(500).json({ message: 'Internal server error' });
+      return internalErrorResponse(500, { message: 'Internal server error' });
     }
   }
 }

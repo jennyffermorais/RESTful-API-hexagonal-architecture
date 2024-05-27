@@ -17,5 +17,5 @@ export class Product {
 
   @OneToOne(() => Category)
   @JoinColumn()
-  category: Category;
+  category: Partial<Category>;
 }
