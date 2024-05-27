@@ -7,13 +7,76 @@ const router = express.Router();
 
 router.use(express.json());
 
-router.post('/orders', (req, res) => orderController.create(req, res));
-router.put('/orders/:id', (req, res) => orderController.update(req, res));
-router.delete('/orders/:id', (req, res) => orderController.delete(req, res));
-router.get('/orders/:id', (req, res) => orderController.getOrderById(req, res));
-router.get('/orders', (req, res) => orderController.getAllOrders(req, res));
-router.get('/orders/status/:status', (req, res) => orderController.getOrdersByStatus(req, res));
-router.get('/orders/creation-date', (req, res) => orderController.getOrdersByCreationDate(req, res));
-router.get('/orders/update-date', (req, res) => orderController.getOrdersByUpdateDate(req, res));
+router.post('/orders', async (req, res) => {
+  try {
+    const result = await orderController.create(req.body, res.status.bind(res, 404), res.status.bind(res, 500));
+    res.status(201).json(result);
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+router.put('/orders/:id', async (req, res) => {
+  try {
+    const result = await orderController.update(req.params.id, req.body, res.status.bind(res, 404), res.status.bind(res, 500));
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+router.delete('/orders/:id', async (req, res) => {
+  try {
+    await orderController.delete(req.params.id, res.status.bind(res, 404), res.status.bind(res, 500));
+    res.status(204).send();
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+router.get('/orders/:id', async (req, res) => {
+  try {
+    const result = await orderController.getOrderById(req.params.id, res.status.bind(res, 404), res.status.bind(res, 500));
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+router.get('/orders', async (req, res) => {
+  try {
+    const result = await orderController.getAllOrders(res.status.bind(res, 500));
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+router.get('/orders/status/:status', async (req, res) => {
+  try {
+    const result = await orderController.getOrdersByStatus(req.params.status, res.status.bind(res, 400), res.status.bind(res, 500));
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+router.get('/orders/creation-date', async (req, res) => {
+  try {
+    const result = await orderController.getOrdersByCreationDate(req.query.startDate as string, req.query.endDate as string, res.status.bind(res, 400), res.status.bind(res, 500));
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+router.get('/orders/update-date', async (req, res) => {
+  try {
+    const result = await orderController.getOrdersByUpdateDate(req.query.startDate as string, req.query.endDate as string, res.status.bind(res, 400), res.status.bind(res, 500));
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 export default router;
