@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, Relation } from 'typeorm';
 import { IProduct } from '../../../core/domain/Product';
 import { Category } from './Category';
 
@@ -20,5 +20,5 @@ export class Product implements IProduct {
   categoryId: number;
   @OneToOne(() => Category)
   @JoinColumn()
-  category: Partial<Category>;
+  category: Relation<Category>;
 }

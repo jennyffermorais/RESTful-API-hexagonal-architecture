@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, Relation } from 'typeorm';
 import { IOrder, PAYMENT_STATUS, PROCESS_STATUS } from '../../../core/domain/Order';
 import { Client } from './Client';
 import { OrderProduct } from './OrderProduct';
@@ -10,13 +10,13 @@ export class Order extends BaseEntity implements IOrder {
   id: number;
 
   @OneToMany(() => OrderProduct, (OrderProduct) => OrderProduct.order)
-  products: OrderProduct[];
+  products: Relation<OrderProduct[]>;
 
   @Column({ nullable: true })
   clientId: number;
   @OneToOne(() => Client)
   @JoinColumn()
-  client: Client;
+  client: Relation<Client>;
 
   @Column({
     type: 'enum',

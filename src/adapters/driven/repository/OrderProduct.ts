@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, Relation } from 'typeorm';
 import { IOrderProduct } from '../../../core/domain/OrderProduct';
 import { Category } from './Category';
 import { Order } from './Order';
@@ -11,13 +11,13 @@ export class OrderProduct extends BaseEntity implements IOrderProduct {
   @Column()
   orderId: number;
   @ManyToOne(() => Order, (Order) => Order.products)
-  order: Order;
+  order: Relation<Order>;
 
   @Column()
   categoryId: number;
   @OneToOne(() => Category)
   @JoinColumn()
-  category: Category;
+  category: Relation<Category>;
 
   @Column('int')
   quantity: number;
