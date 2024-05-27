@@ -1,7 +1,15 @@
 import express from 'express';
 import { OrderController } from '../adapters/driver/api/controller/OrderController';
+import { IOrderService } from '../core/applications/ports/IOrderService';
+import { TypeORMRepository } from '../adapters/driver/api/repository/TypeORMRepository';
+import { Order } from '../adapters/driven/repository/Order';
+import { OrderService } from '../core/applications/services/OrderService';
+import { AppDataSource } from '../data-source';
 
-const orderController = new OrderController();
+const orderRepository = new TypeORMRepository<Order>(AppDataSource, Order);
+const orderService: IOrderService = new OrderService(orderRepository);
+
+const orderController = new OrderController(orderService);
 
 const router = express.Router();
 

@@ -1,18 +1,18 @@
 import { Request, Response } from 'express';
-import { PaymentServiceI } from '../../../../core/applications/ports/PaymentService';
 import { OrderService } from '../../../../core/applications/services/OrderService';
 import { PAYMENT_STATUS } from '../../../driven/repository/Order';
 import { MarkOrderAsPaidRequest, OrderPaymentRequest } from './dto/PaymentDto';
+import { IPaymentService } from '../../../../core/applications/ports/IPaymentService';
 
 export class PaymentController {
   constructor(
-    private readonly paymentGatewayService: PaymentServiceI,
+    private readonly paymentGatewayService: IPaymentService,
     private readonly orderService: OrderService
   ) {}
 
   async createOrderPayment(req: Request, res: Response): Promise<Response> {
     const { orderId }: OrderPaymentRequest = req.body;
-    const order = await this.orderService.getOrderById(orderId);
+    const order = await this.orderService.getById(orderId);
     if (!order) {
       return res.status(404).json({ message: 'Order not found' });
     }
@@ -33,7 +33,7 @@ export class PaymentController {
 
   async markOrderAsPaid(req: Request, res: Response): Promise<Response> {
     const { orderId, status: paymentResponseStatus }: MarkOrderAsPaidRequest = req.body;
-    const order = await this.orderService.getOrderById(orderId);
+    const order = await this.orderService.getById(orderId);
 
     if (!order) {
       return res.status(404).json({ message: 'Order not found' });

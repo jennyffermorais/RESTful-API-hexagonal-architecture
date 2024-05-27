@@ -1,15 +1,17 @@
-import { OrderService } from '../../../../core/applications/services/OrderService';
+import { Request, Response } from 'express';
 import { PROCESS_STATUS } from '../../../driven/repository/Order';
 import { CreateOrderDto, UpdateOrderDto } from './dto/OrderDto';
+import { IOrderService } from '../../../../core/applications/ports/IOrderService';
 import { Delete, Get, Post, Put, Route, Tags, Body, Path, Query, Res, TsoaResponse } from 'tsoa';
 
 @Route("orders")
 @Tags("Order")
 export class OrderController {
-  private orderService: OrderService;
 
-  constructor() {
-    this.orderService = new OrderService();
+  private orderService: IOrderService;
+
+  constructor(orderService: IOrderService) {
+    this.orderService = orderService;
   }
 
   @Post("/")
@@ -67,7 +69,7 @@ export class OrderController {
     @Res() internalErrorResponse: TsoaResponse<500, { message: string }>
   ): Promise<any> {
     try {
-      const order = await this.orderService.getOrderById(Number(id));
+      const order = await this.orderService.getById(Number(id));
       if (!order) {
         return notFoundResponse(404, { message: 'Order not found' });
       }
@@ -82,8 +84,8 @@ export class OrderController {
     @Res() internalErrorResponse: TsoaResponse<500, { message: string }>
   ): Promise<any> {
     try {
-      const orders = await this.orderService.getAllOrders();
-      return orders;
+      const orders = await this.orderService.getAll();
+      return res.status(200).json(orders);
     } catch (error) {
       return internalErrorResponse(500, { message: 'Internal server error' });
     }
@@ -100,8 +102,8 @@ export class OrderController {
     }
 
     try {
-      const orders = await this.orderService.getOrdersByStatus(status as PROCESS_STATUS);
-      return orders;
+      const orders = await this.orderService.getByStatus(status as PROCESS_STATUS);
+      return res.status(200).json(orders);
     } catch (error) {
       return internalErrorResponse(500, { message: 'Internal server error' });
     }
@@ -119,9 +121,9 @@ export class OrderController {
     }
 
     try {
-      const orders = await this.orderService.getOrdersByCreationDate(
-        new Date(startDate),
-        new Date(endDate)
+      const orders = await this.orderService.getByCreationDate(
+        new Date(startDate as string),
+        new Date(endDate as string)
       );
       return orders;
     } catch (error) {
@@ -141,9 +143,9 @@ export class OrderController {
     }
 
     try {
-      const orders = await this.orderService.getOrdersByUpdateDate(
-        new Date(startDate),
-        new Date(endDate)
+      const orders = await this.orderService.getByUpdateDate(
+        new Date(startDate as string),
+        new Date(endDate as string)
       );
       return orders;
     } catch (error) {

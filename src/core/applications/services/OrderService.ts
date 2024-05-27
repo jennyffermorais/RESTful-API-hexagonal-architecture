@@ -1,12 +1,16 @@
 import { Between } from 'typeorm';
 import { Order, PROCESS_STATUS } from '../../../adapters/driven/repository/Order';
-import { AppDataSource } from '../../../data-source';
+import { IRepository } from '../ports/IRepository';
 
 export class OrderService {
-  private orderRepository = AppDataSource.getRepository(Order);
+  private orderRepository: IRepository<Order>;
+
+  constructor(orderRepository: IRepository<Order>) {
+    this.orderRepository = orderRepository;
+  }
 
   public async create(data: Partial<Order>): Promise<Order> {
-    const order = this.orderRepository.create(data);
+    const order = await this.orderRepository.create(data);
     return this.orderRepository.save(order);
   }
 
@@ -27,13 +31,13 @@ export class OrderService {
     return result.affected !== undefined && result.affected! > 0;
   }
 
-  public async getOrderById(id: number): Promise<Order | null> {
+  public async getById(id: number): Promise<Order | null> {
     const order = await this.orderRepository.findOneBy({ id });
 
     return order || null;
   }
 
-  public async getAllOrders(): Promise<Order[]> {
+  public async getAll(): Promise<Order[]> {
     return this.orderRepository.find();
   }
 
@@ -41,14 +45,14 @@ export class OrderService {
     return Object.values(PROCESS_STATUS).includes(status);
   };
 
-  public async getOrdersByStatus(status: PROCESS_STATUS): Promise<Order[]> {
+  public async getByStatus(status: PROCESS_STATUS): Promise<Order[]> {
     return this.orderRepository.find({
       where: { processStage: status },
       order: { id: 'ASC' },
     });
   }
 
-  public async getOrdersByCreationDate(startDate: Date, endDate: Date): Promise<Order[]> {
+  public async getByCreationDate(startDate: Date, endDate: Date): Promise<Order[]> {
     return this.orderRepository.find({
       where: {
         date_audit: {
@@ -59,7 +63,7 @@ export class OrderService {
     });
   }
 
-  public async getOrdersByUpdateDate(startDate: Date, endDate: Date): Promise<Order[]> {
+  public async getByUpdateDate(startDate: Date, endDate: Date): Promise<Order[]> {
     return this.orderRepository.find({
       where: {
         date_audit: {

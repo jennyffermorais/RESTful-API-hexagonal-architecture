@@ -1,15 +1,19 @@
 import { Category } from '../../../adapters/driven/repository/Category';
-import { AppDataSource } from '../../../data-source';
+import { IRepository } from '../ports/IRepository';
 
 export class CategoryService {
-  private categoryRepository = AppDataSource.getRepository(Category);
+  private categoryRepository: IRepository<Category>;
 
-  public async createCategory(categoryData: Partial<Category>): Promise<Category> {
-    const category = this.categoryRepository.create(categoryData);
+  constructor(categoryRepository: IRepository<Category>) {
+    this.categoryRepository = categoryRepository;
+  }
+
+  public async create(categoryData: Partial<Category>): Promise<Category> {
+    const category = await this.categoryRepository.create(categoryData);
     return this.categoryRepository.save(category);
   }
 
-  public async updateCategory(id: number, categoryData: Partial<Category>): Promise<Category | null> {
+  public async update(id: number, categoryData: Partial<Category>): Promise<Category | null> {
     const category = await this.categoryRepository.findOneBy({ id });
 
     if (!category) {
@@ -20,19 +24,19 @@ export class CategoryService {
     return this.categoryRepository.save(category);
   }
 
-  public async deleteCategory(id: number): Promise<boolean> {
+  public async delete(id: number): Promise<boolean> {
     const result = await this.categoryRepository.delete(id);
 
     return result.affected !== undefined && result.affected! > 0;
   }
 
-  public async getCategoryById(id: number): Promise<Category | null> {
+  public async getById(id: number): Promise<Category | null> {
     const category = await this.categoryRepository.findOneBy({ id });
 
     return category || null;
   }
 
-  public async getAllCategorys(): Promise<Category[]> {
+  public async getAll(): Promise<Category[]> {
     return this.categoryRepository.find();
   }
 }
