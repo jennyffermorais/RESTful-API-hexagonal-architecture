@@ -20,5 +20,5 @@ export class Product implements IProduct {
   categoryId: number;
   @OneToOne(() => Category)
   @JoinColumn()
-  category: Category;
+  category: Partial<Category>;
 }
