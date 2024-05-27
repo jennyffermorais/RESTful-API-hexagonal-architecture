@@ -1,10 +1,10 @@
 import express from 'express';
-import { OrderController } from '../adapters/driver/api/controller/OrderController';
-import { IOrderService } from '../core/applications/ports/IOrderService';
-import { TypeORMRepository } from '../adapters/driver/api/repository/TypeORMRepository';
-import { Order } from '../adapters/driven/repository/Order';
-import { OrderService } from '../core/applications/services/OrderService';
-import { AppDataSource } from '../data-source';
+import { IOrderService } from '../../../../core/applications/ports/IOrderService';
+import { OrderService } from '../../../../core/applications/services/OrderService';
+import { AppDataSource } from '../../../../data-source';
+import { Order } from '../../../driven/repository/Order';
+import { OrderController } from '../controller/OrderController';
+import { TypeORMRepository } from '../repository/TypeORMRepository';
 
 const orderRepository = new TypeORMRepository<Order>(AppDataSource, Order);
 const orderService: IOrderService = new OrderService(orderRepository);
@@ -26,7 +26,12 @@ router.post('/orders', async (req, res) => {
 
 router.put('/orders/:id', async (req, res) => {
   try {
-    const result = await orderController.update(req.params.id, req.body, res.status.bind(res, 404), res.status.bind(res, 500));
+    const result = await orderController.update(
+      req.params.id,
+      req.body,
+      res.status.bind(res, 404),
+      res.status.bind(res, 500)
+    );
     res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
@@ -44,7 +49,11 @@ router.delete('/orders/:id', async (req, res) => {
 
 router.get('/orders/:id', async (req, res) => {
   try {
-    const result = await orderController.getOrderById(req.params.id, res.status.bind(res, 404), res.status.bind(res, 500));
+    const result = await orderController.getOrderById(
+      req.params.id,
+      res.status.bind(res, 404),
+      res.status.bind(res, 500)
+    );
     res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
@@ -62,7 +71,11 @@ router.get('/orders', async (req, res) => {
 
 router.get('/orders/status/:status', async (req, res) => {
   try {
-    const result = await orderController.getOrdersByStatus(req.params.status, res.status.bind(res, 400), res.status.bind(res, 500));
+    const result = await orderController.getOrdersByStatus(
+      req.params.status,
+      res.status.bind(res, 400),
+      res.status.bind(res, 500)
+    );
     res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
@@ -71,7 +84,12 @@ router.get('/orders/status/:status', async (req, res) => {
 
 router.get('/orders/creation-date', async (req, res) => {
   try {
-    const result = await orderController.getOrdersByCreationDate(req.query.startDate as string, req.query.endDate as string, res.status.bind(res, 400), res.status.bind(res, 500));
+    const result = await orderController.getOrdersByCreationDate(
+      req.query.startDate as string,
+      req.query.endDate as string,
+      res.status.bind(res, 400),
+      res.status.bind(res, 500)
+    );
     res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
@@ -80,7 +98,12 @@ router.get('/orders/creation-date', async (req, res) => {
 
 router.get('/orders/update-date', async (req, res) => {
   try {
-    const result = await orderController.getOrdersByUpdateDate(req.query.startDate as string, req.query.endDate as string, res.status.bind(res, 400), res.status.bind(res, 500));
+    const result = await orderController.getOrdersByUpdateDate(
+      req.query.startDate as string,
+      req.query.endDate as string,
+      res.status.bind(res, 400),
+      res.status.bind(res, 500)
+    );
     res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });

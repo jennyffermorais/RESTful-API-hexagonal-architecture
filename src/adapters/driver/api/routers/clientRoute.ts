@@ -1,10 +1,10 @@
 import express, { Router } from 'express';
-import { ClientController } from '../adapters/driver/api/controller/ClientController';
-import { TypeORMRepository } from '../adapters/driver/api/repository/TypeORMRepository';
-import { Client } from '../adapters/driven/repository/Client';
-import { AppDataSource } from '../data-source';
-import { ClientService } from '../core/applications/services/ClientService';
-import { IClientService } from '../core/applications/ports/IClientService';
+import { IClientService } from '../../../../core/applications/ports/IClientService';
+import { ClientService } from '../../../../core/applications/services/ClientService';
+import { AppDataSource } from '../../../../data-source';
+import { Client } from '../../../driven/repository/Client';
+import { ClientController } from '../controller/ClientController';
+import { TypeORMRepository } from '../repository/TypeORMRepository';
 
 const clientRepository = new TypeORMRepository<Client>(AppDataSource, Client);
 const clientService: IClientService = new ClientService(clientRepository);

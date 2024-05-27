@@ -1,10 +1,10 @@
 import express, { Router } from 'express';
-import { Category } from '../adapters/driven/repository/Category';
-import { AppDataSource } from '../data-source';
-import { CategoryService } from '../core/applications/services/CategoryService';
-import { ICategoryService } from '../core/applications/ports/ICategoryService';
-import { TypeORMRepository } from '../adapters/driver/api/repository/TypeORMRepository';
-import { CategoryController } from '../adapters/driver/api/controller/CategoryController';
+import { ICategoryService } from '../../../../core/applications/ports/ICategoryService';
+import { CategoryService } from '../../../../core/applications/services/CategoryService';
+import { AppDataSource } from '../../../../data-source';
+import { Category } from '../../../driven/repository/Category';
+import { CategoryController } from '../controller/CategoryController';
+import { TypeORMRepository } from '../repository/TypeORMRepository';
 
 const categoryRepository = new TypeORMRepository<Category>(AppDataSource, Category);
 const categoryService: ICategoryService = new CategoryService(categoryRepository);

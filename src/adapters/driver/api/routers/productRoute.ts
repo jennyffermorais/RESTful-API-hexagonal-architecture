@@ -1,10 +1,10 @@
 import express, { Router } from 'express';
-import { ProductController } from '../adapters/driver/api/controller/ProductController';
-import { TypeORMRepository } from '../adapters/driver/api/repository/TypeORMRepository';
-import { Product } from '../adapters/driven/repository/Product';
-import { AppDataSource } from '../data-source';
-import { ProductService } from '../core/applications/services/ProductService';
-import { IProductService } from '../core/applications/ports/IProductService';
+import { IProductService } from '../../../../core/applications/ports/IProductService';
+import { ProductService } from '../../../../core/applications/services/ProductService';
+import { AppDataSource } from '../../../../data-source';
+import { Product } from '../../../driven/repository/Product';
+import { ProductController } from '../controller/ProductController';
+import { TypeORMRepository } from '../repository/TypeORMRepository';
 
 const productRepository = new TypeORMRepository<Product>(AppDataSource, Product);
 const productService: IProductService = new ProductService(productRepository);
