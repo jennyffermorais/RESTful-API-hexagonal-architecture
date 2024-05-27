@@ -1,13 +1,14 @@
 import { Request, Response } from 'express';
-import { OrderService } from '../../../../core/applications/services/OrderService';
 import { PROCESS_STATUS } from '../../../driven/repository/Order';
 import { CreateOrderDto, UpdateOrderDto } from './dto/OrderDto';
+import { IOrderService } from '../../../../core/applications/ports/IOrderService';
 
 export class OrderController {
-  private orderService: OrderService;
 
-  constructor() {
-    this.orderService = new OrderService();
+  private orderService: IOrderService;
+
+  constructor(orderService: IOrderService) {
+    this.orderService = orderService;
   }
 
   public async create(req: Request, res: Response): Promise<Response> {

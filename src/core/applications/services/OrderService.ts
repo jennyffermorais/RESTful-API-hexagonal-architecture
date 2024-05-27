@@ -1,12 +1,16 @@
 import { Between } from 'typeorm';
 import { Order, PROCESS_STATUS } from '../../../adapters/driven/repository/Order';
-import { AppDataSource } from '../../../data-source';
+import { IRepository } from '../ports/IRepository';
 
 export class OrderService {
-  private orderRepository = AppDataSource.getRepository(Order);
+  private orderRepository: IRepository<Order>;
+
+  constructor(orderRepository: IRepository<Order>) {
+    this.orderRepository = orderRepository;
+  }
 
   public async create(data: Partial<Order>): Promise<Order> {
-    const order = this.orderRepository.create(data);
+    const order = await this.orderRepository.create(data);
     return this.orderRepository.save(order);
   }
 
