@@ -4,7 +4,7 @@ import { Client } from './Client';
 import { OrderProduct } from './OrderProduct';
 import { DateAudit } from './embedded/date-audit';
 
-@Entity('Order')
+@Entity()
 export class Order extends BaseEntity implements IOrder {
   @PrimaryGeneratedColumn()
   id: number;

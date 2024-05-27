@@ -2,7 +2,7 @@ import { Column, Entity, OneToOne, PrimaryGeneratedColumn, Relation } from 'type
 import { CATEGORIES, ICategory } from '../../../core/domain/Category';
 import { Product } from './Product';
 
-@Entity('category')
+@Entity()
 export class Category implements ICategory {
   @PrimaryGeneratedColumn()
   id: number;
