@@ -1,5 +1,4 @@
-import { Category } from '../../../adapters/driven/repository/Category';
+import { ICategory } from '../../domain/Category';
 import { IService } from './IService';
 
-export interface ICategoryService extends IService<Category> {
-}
+export interface ICategoryService extends IService<ICategory> {}

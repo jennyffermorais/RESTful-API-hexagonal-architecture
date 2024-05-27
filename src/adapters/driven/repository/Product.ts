@@ -1,8 +1,9 @@
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { IProduct } from '../../../core/domain/Product';
 import { Category } from './Category';
 
 @Entity('product')
-export class Product {
+export class Product implements IProduct {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -15,6 +16,8 @@ export class Product {
   @Column('decimal')
   price: number;
 
+  @Column()
+  categoryId: number;
   @OneToOne(() => Category)
   @JoinColumn()
   category: Category;

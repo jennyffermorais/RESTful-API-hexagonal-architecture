@@ -1,9 +1,10 @@
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { IOrderProduct } from '../../../core/domain/OrderProduct';
 import { Category } from './Category';
 import { Order } from './Order';
 
 @Entity()
-export class OrderProduct extends BaseEntity {
+export class OrderProduct extends BaseEntity implements IOrderProduct {
   @PrimaryGeneratedColumn()
   id: number;
 

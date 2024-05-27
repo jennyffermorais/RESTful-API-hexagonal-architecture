@@ -1,20 +1,19 @@
-import { Product } from '../../../adapters/driven/repository/Product';
+import { IProduct } from '../../domain/Product';
 import { IRepository } from '../ports/IRepository';
 
 export class ProductService {
-  
-  private productRepository: IRepository<Product>;
+  private productRepository: IRepository<IProduct>;
 
-  constructor(productRepository: IRepository<Product>) {
+  constructor(productRepository: IRepository<IProduct>) {
     this.productRepository = productRepository;
   }
 
-  public async create(productData: Partial<Product>): Promise<Product> {
+  public async create(productData: Partial<IProduct>): Promise<IProduct> {
     const product = await this.productRepository.create(productData);
     return this.productRepository.save(product);
   }
 
-  public async update(id: number, productData: Partial<Product>): Promise<Product | null> {
+  public async update(id: number, productData: Partial<IProduct>): Promise<IProduct | null> {
     const product = await this.productRepository.findOneBy({ id });
 
     if (!product) {
@@ -31,13 +30,13 @@ export class ProductService {
     return result.affected !== undefined && result.affected! > 0;
   }
 
-  public async getById(id: number): Promise<Product | null> {
+  public async getById(id: number): Promise<IProduct | null> {
     const product = await this.productRepository.findOneBy({ id });
 
     return product || null;
   }
 
-  public async getAll(): Promise<Product[]> {
+  public async getAll(): Promise<IProduct[]> {
     return this.productRepository.find();
   }
 }

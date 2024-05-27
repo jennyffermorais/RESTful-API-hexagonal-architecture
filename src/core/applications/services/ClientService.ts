@@ -1,19 +1,19 @@
-import { Client } from '../../../adapters/driven/repository/Client';
+import { IClient } from '../../domain/Client';
 import { IRepository } from '../ports/IRepository';
 
 export class ClientService {
-  private clientRepository: IRepository<Client>;
+  private clientRepository: IRepository<IClient>;
 
-  constructor(clientRepository: IRepository<Client>) {
+  constructor(clientRepository: IRepository<IClient>) {
     this.clientRepository = clientRepository;
   }
 
-  public async create(clientData: Partial<Client>): Promise<Client> {
+  public async create(clientData: Partial<IClient>): Promise<IClient> {
     const client = await this.clientRepository.create(clientData);
     return this.clientRepository.save(client);
   }
 
-  public async update(id: number, clientData: Partial<Client>): Promise<Client | null> {
+  public async update(id: number, clientData: Partial<IClient>): Promise<IClient | null> {
     const client = await this.clientRepository.findOneBy({ id });
 
     if (!client) {
@@ -30,19 +30,19 @@ export class ClientService {
     return result.affected !== undefined && result.affected! > 0;
   }
 
-  public async getById(id: number): Promise<Client | null> {
+  public async getById(id: number): Promise<IClient | null> {
     const client = await this.clientRepository.findOneBy({ id });
 
     return client || null;
   }
 
-  public async getClientByDocument(documentNum: string): Promise<Client | null> {
+  public async getClientByDocument(documentNum: string): Promise<IClient | null> {
     const client = await this.clientRepository.findOneBy({ documentNum });
 
     return client || null;
   }
 
-  public async getAll(): Promise<Client[]> {
+  public async getAll(): Promise<IClient[]> {
     return this.clientRepository.find();
   }
 }

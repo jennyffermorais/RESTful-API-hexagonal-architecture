@@ -1,10 +1,9 @@
 import { Request, Response } from 'express';
-import { PROCESS_STATUS } from '../../../driven/repository/Order';
-import { CreateOrderDto, UpdateOrderDto } from './dto/OrderDto';
 import { IOrderService } from '../../../../core/applications/ports/IOrderService';
+import { PROCESS_STATUS } from '../../../../core/domain/Order';
+import { CreateOrderDto, UpdateOrderDto } from './dto/OrderDto';
 
 export class OrderController {
-
   private orderService: IOrderService;
 
   constructor(orderService: IOrderService) {

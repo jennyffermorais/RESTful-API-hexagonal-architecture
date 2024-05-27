@@ -1,24 +1,11 @@
 import { BaseEntity, Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { IOrder, PAYMENT_STATUS, PROCESS_STATUS } from '../../../core/domain/Order';
 import { Client } from './Client';
 import { OrderProduct } from './OrderProduct';
 import { DateAudit } from './embedded/date-audit';
 
-export enum PROCESS_STATUS {
-  RECEBIDO,
-  'EM PREPARAÇÃO',
-  PRONTO,
-  FINALIZADO,
-}
-
-export enum PAYMENT_STATUS {
-  PENDING,
-  PAID,
-  CANCELLED,
-  FAILED,
-}
-
 @Entity('Order')
-export class Order extends BaseEntity {
+export class Order extends BaseEntity implements IOrder {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -50,4 +37,10 @@ export class Order extends BaseEntity {
 
   @Column(() => DateAudit, { prefix: '' })
   date_audit: DateAudit;
+
+  @Column()
+  createdAt: Date;
+
+  @Column()
+  updatedAt: Date;
 }
