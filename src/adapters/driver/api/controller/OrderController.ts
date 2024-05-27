@@ -51,7 +51,7 @@ export class OrderController {
   public async getOrderById(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
     try {
-      const order = await this.orderService.getOrderById(Number(id));
+      const order = await this.orderService.getById(Number(id));
       if (!order) {
         return res.status(404).json({ message: 'Order not found' });
       }
@@ -63,7 +63,7 @@ export class OrderController {
 
   public async getAllOrders(req: Request, res: Response): Promise<Response> {
     try {
-      const orders = await this.orderService.getAllOrders();
+      const orders = await this.orderService.getAll();
       return res.status(200).json(orders);
     } catch (error) {
       return res.status(500).json({ message: 'Internal server error' });
@@ -78,7 +78,7 @@ export class OrderController {
     }
 
     try {
-      const orders = await this.orderService.getOrdersByStatus(status as PROCESS_STATUS);
+      const orders = await this.orderService.getByStatus(status as PROCESS_STATUS);
       return res.status(200).json(orders);
     } catch (error) {
       return res.status(500).json({ message: 'Internal server error' });
@@ -92,7 +92,7 @@ export class OrderController {
     }
 
     try {
-      const orders = await this.orderService.getOrdersByCreationDate(
+      const orders = await this.orderService.getByCreationDate(
         new Date(startDate as string),
         new Date(endDate as string)
       );
@@ -109,7 +109,7 @@ export class OrderController {
     }
 
     try {
-      const orders = await this.orderService.getOrdersByUpdateDate(
+      const orders = await this.orderService.getByUpdateDate(
         new Date(startDate as string),
         new Date(endDate as string)
       );

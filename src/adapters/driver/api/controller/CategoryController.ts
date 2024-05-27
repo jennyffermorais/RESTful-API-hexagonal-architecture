@@ -1,20 +1,25 @@
 import { Request, Response } from 'express';
-import { CategoryService } from '../../../../core/applications/services/CategoryService';
 import { CreateCategoryDto, UpdateCategoryDto } from './dto/CategoryDto';
+import { ICategoryService } from '../../../../core/applications/ports/ICategoryService';
 
 export class CategoryController {
-  private categoryService = new CategoryService();
+
+  private categoryService: ICategoryService;
+
+  constructor(categoryService: ICategoryService) {
+    this.categoryService = categoryService;
+  }
 
   async createCategory(req: Request, res: Response): Promise<Response> {
     const createCategoryDto: CreateCategoryDto = req.body;
-    const category = await this.categoryService.createCategory(createCategoryDto);
+    const category = await this.categoryService.create(createCategoryDto);
     return res.status(201).json(category);
   }
 
   async updateCategory(req: Request, res: Response): Promise<Response> {
     const id = parseInt(req.params.id, 10);
     const updateCategoryDto: UpdateCategoryDto = req.body;
-    const category = await this.categoryService.updateCategory(id, updateCategoryDto);
+    const category = await this.categoryService.update(id, updateCategoryDto);
     if (category) {
       return res.json(category);
     } else {
@@ -24,13 +29,13 @@ export class CategoryController {
 
   async deleteCategory(req: Request, res: Response): Promise<Response> {
     const id = parseInt(req.params.id, 10);
-    await this.categoryService.deleteCategory(id);
+    await this.categoryService.delete(id);
     return res.status(204).send();
   }
 
   async getCategoryById(req: Request, res: Response): Promise<Response> {
     const id = parseInt(req.params.id, 10);
-    const category = await this.categoryService.getCategoryById(id);
+    const category = await this.categoryService.getById(id);
     if (category) {
       return res.json(category);
     } else {
@@ -39,7 +44,7 @@ export class CategoryController {
   }
 
   async getAllCategorys(req: Request, res: Response): Promise<Response> {
-    const categorys = await this.categoryService.getAllCategorys();
+    const categorys = await this.categoryService.getAll();
     return res.json(categorys);
   }
 }

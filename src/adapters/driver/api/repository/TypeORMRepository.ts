@@ -1,5 +1,5 @@
 import { Repository, DataSource, ObjectLiteral } from 'typeorm';
-import { IRepository } from '../ports/IRepository';
+import { IRepository } from '../../../../core/applications/ports/IRepository';
 
 export class TypeORMRepository<T extends ObjectLiteral> implements IRepository<T> {
   private repository: Repository<T>;

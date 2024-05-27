@@ -1,15 +1,20 @@
 import { Product } from '../../../adapters/driven/repository/Product';
-import { AppDataSource } from '../../../data-source';
+import { IRepository } from '../ports/IRepository';
 
 export class ProductService {
-  private productRepository = AppDataSource.getRepository(Product);
+  
+  private productRepository: IRepository<Product>;
 
-  public async createProduct(productData: Partial<Product>): Promise<Product> {
-    const product = this.productRepository.create(productData);
+  constructor(productRepository: IRepository<Product>) {
+    this.productRepository = productRepository;
+  }
+
+  public async create(productData: Partial<Product>): Promise<Product> {
+    const product = await this.productRepository.create(productData);
     return this.productRepository.save(product);
   }
 
-  public async updateProduct(id: number, productData: Partial<Product>): Promise<Product | null> {
+  public async update(id: number, productData: Partial<Product>): Promise<Product | null> {
     const product = await this.productRepository.findOneBy({ id });
 
     if (!product) {
@@ -20,19 +25,19 @@ export class ProductService {
     return this.productRepository.save(product);
   }
 
-  public async deleteProduct(id: number): Promise<boolean> {
+  public async delete(id: number): Promise<boolean> {
     const result = await this.productRepository.delete(id);
 
     return result.affected !== undefined && result.affected! > 0;
   }
 
-  public async getProductById(id: number): Promise<Product | null> {
+  public async getById(id: number): Promise<Product | null> {
     const product = await this.productRepository.findOneBy({ id });
 
     return product || null;
   }
 
-  public async getAllProducts(): Promise<Product[]> {
+  public async getAll(): Promise<Product[]> {
     return this.productRepository.find();
   }
 }

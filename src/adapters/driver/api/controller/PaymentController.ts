@@ -12,7 +12,7 @@ export class PaymentController {
 
   async createOrderPayment(req: Request, res: Response): Promise<Response> {
     const { orderId }: OrderPaymentRequest = req.body;
-    const order = await this.orderService.getOrderById(orderId);
+    const order = await this.orderService.getById(orderId);
     if (!order) {
       return res.status(404).json({ message: 'Order not found' });
     }
@@ -33,7 +33,7 @@ export class PaymentController {
 
   async markOrderAsPaid(req: Request, res: Response): Promise<Response> {
     const { orderId, status: paymentResponseStatus }: MarkOrderAsPaidRequest = req.body;
-    const order = await this.orderService.getOrderById(orderId);
+    const order = await this.orderService.getById(orderId);
 
     if (!order) {
       return res.status(404).json({ message: 'Order not found' });

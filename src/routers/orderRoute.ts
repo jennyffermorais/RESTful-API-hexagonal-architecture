@@ -1,7 +1,7 @@
 import express from 'express';
 import { OrderController } from '../adapters/driver/api/controller/OrderController';
 import { IOrderService } from '../core/applications/ports/IOrderService';
-import { TypeORMRepository } from '../core/applications/repository/TypeORMRepository';
+import { TypeORMRepository } from '../adapters/driver/api/repository/TypeORMRepository';
 import { Order } from '../adapters/driven/repository/Order';
 import { OrderService } from '../core/applications/services/OrderService';
 import { AppDataSource } from '../data-source';
