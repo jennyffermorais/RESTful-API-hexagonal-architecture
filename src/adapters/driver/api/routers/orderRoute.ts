@@ -8,13 +8,9 @@ import { TypeORMRepository } from '../repository/TypeORMRepository';
 
 const orderRepository = new TypeORMRepository<Order>(AppDataSource, Order);
 const orderService: IOrderService = new OrderService(orderRepository);
-
 const orderController = new OrderController(orderService);
 
 const router = express.Router();
-
-router.use(express.json());
-
 router.post('/orders', async (req, res) => {
   try {
     const result = await orderController.create(req.body, res.status.bind(res, 404), res.status.bind(res, 500));

@@ -1,4 +1,4 @@
-import express, { Router } from 'express';
+import { Router } from 'express';
 import { IProductService } from '../../../../core/applications/ports/IProductService';
 import { ProductService } from '../../../../core/applications/services/ProductService';
 import { AppDataSource } from '../../../../data-source';
@@ -8,13 +8,9 @@ import { TypeORMRepository } from '../repository/TypeORMRepository';
 
 const productRepository = new TypeORMRepository<Product>(AppDataSource, Product);
 const productService: IProductService = new ProductService(productRepository);
-
 const productController = new ProductController(productService);
 
 const router = Router();
-
-router.use(express.json());
-
 router.post('/products', (req, res) => productController.createProduct(req, res));
 router.put('/products/:id', (req, res) => productController.updateProduct(req, res));
 router.delete('/products/:id', (req, res) => productController.deleteProduct(req, res));

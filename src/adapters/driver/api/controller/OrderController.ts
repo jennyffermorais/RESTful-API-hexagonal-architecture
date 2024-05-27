@@ -81,7 +81,7 @@ export class OrderController {
   public async getAllOrders(@Res() internalErrorResponse: TsoaResponse<500, { message: string }>): Promise<any> {
     try {
       const orders = await this.orderService.getAll();
-      return res.status(200).json(orders);
+      return orders;
     } catch (error) {
       return internalErrorResponse(500, { message: 'Internal server error' });
     }
@@ -99,7 +99,7 @@ export class OrderController {
 
     try {
       const orders = await this.orderService.getByStatus(status as PROCESS_STATUS);
-      return res.status(200).json(orders);
+      return orders;
     } catch (error) {
       return internalErrorResponse(500, { message: 'Internal server error' });
     }

@@ -4,13 +4,13 @@ import express from 'express';
 import * as logger from 'morgan';
 import 'reflect-metadata';
 import swaggerUi from 'swagger-ui-express';
-import swaggerDocument from '../dist/swagger.json';
 import categoryRoute from './adapters/driver/api/routers/categoryRoute';
 import clientRoute from './adapters/driver/api/routers/clientRoute';
 import orderRoute from './adapters/driver/api/routers/orderRoute';
 import { paymentRoute } from './adapters/driver/api/routers/paymentRoute';
 import productRoute from './adapters/driver/api/routers/productRoute';
 import { AppDataSource } from './data-source';
+import swaggerDocument from './swagger/swagger.json';
 
 const app = express();
 
