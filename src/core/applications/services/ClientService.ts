@@ -1,7 +1,8 @@
 import { IClient } from '../../domain/Client';
 import { IRepository } from '../ports/repositories/IRepository';
+import { IClientService } from '../ports/services/IClientService';
 
-export class ClientService {
+export class ClientService implements IClientService {
   private clientRepository: IRepository<IClient>;
 
   constructor(clientRepository: IRepository<IClient>) {
@@ -42,7 +43,8 @@ export class ClientService {
     return client || null;
   }
 
-  public async getAll(): Promise<IClient[]> {
-    return this.clientRepository.find();
-  }
+  getAll: IClientService['getAll'] = async (filters = {}) => {
+    const { documentNum } = filters;
+    return this.clientRepository.find({ where: { documentNum } });
+  };
 }

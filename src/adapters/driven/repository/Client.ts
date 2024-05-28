@@ -10,7 +10,7 @@ export class Client implements IClient {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ unique: true })
   documentNum: string;
 
   @Column()

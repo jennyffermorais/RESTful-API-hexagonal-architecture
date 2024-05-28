@@ -1,4 +1,4 @@
-import express, { Router } from 'express';
+import express from 'express';
 import { IClientService } from '../../../../core/applications/ports/services/IClientService';
 import { ClientService } from '../../../../core/applications/services/ClientService';
 import { AppDataSource } from '../../../../data-source';
@@ -45,11 +45,7 @@ router.delete('/clients/:id', async (req, res) => {
 
 router.get('/clients/:id', async (req, res) => {
   try {
-    const result = await clientController.getById(
-      req.params.id,
-      res.status.bind(res, 404),
-      res.status.bind(res, 500)
-    );
+    const result = await clientController.getById(req.params.id, res.status.bind(res, 404), res.status.bind(res, 500));
     res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
@@ -58,26 +54,27 @@ router.get('/clients/:id', async (req, res) => {
 
 router.get('/clients', async (req, res) => {
   try {
-    const result = await clientController.getAll(res.status.bind(res, 500));
+    // get documentNum from query params
+    const documentNum = req.query.documentNum as string;
+
+    const result = await clientController.getAll(documentNum, res.status.bind(res, 500));
     res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
 
-
 router.get('/clients/document/:documentNum', async (req, res) => {
-    try {
-      const result = await clientController.getById(
-        req.params.documentNum,
-        res.status.bind(res, 404),
-        res.status.bind(res, 500)
-      );
-      res.status(200).json(result);
-    } catch (error) {
-      res.status(500).json({ message: 'Internal server error' });
-    }
-  });
-
+  try {
+    const result = await clientController.getById(
+      req.params.documentNum,
+      res.status.bind(res, 404),
+      res.status.bind(res, 500)
+    );
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 export default router;

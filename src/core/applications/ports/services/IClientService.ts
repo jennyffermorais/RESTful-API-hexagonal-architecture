@@ -1,6 +1,10 @@
 import { IClient } from '../../../domain/Client';
-import { IService } from './IService';
 
-export interface IClientService extends IService<IClient> {
+export interface IClientService {
+  create(data: Partial<IClient>): Promise<IClient>;
+  update(id: number, data: Partial<IClient>): Promise<IClient | null>;
+  delete(id: number): Promise<boolean>;
+  getById(id: number): Promise<IClient | null>;
+  getAll(filters?: { documentNum?: string }): Promise<IClient[]>;
   getClientByDocument(documentNum: string): Promise<IClient | null>;
 }
