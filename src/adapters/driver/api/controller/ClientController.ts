@@ -1,7 +1,9 @@
-import { Request, Response } from 'express';
+import { Body, Delete, Get, Path, Post, Put, Res, Route, Tags, TsoaResponse } from 'tsoa';
 import { CreateClientDto, UpdateClientDto } from './dto/ClientDto';
 import { IClientService } from '../../../../core/applications/ports/services/IClientService';
 
+@Route('clients')
+@Tags('Clients')
 export class ClientController {
 
   private clientService: IClientService;
@@ -10,50 +12,96 @@ export class ClientController {
     this.clientService = clientService;
   }
 
-  async create(req: Request, res: Response): Promise<Response> {
-    const createClientDto: CreateClientDto = req.body;
-    const client = await this.clientService.create(createClientDto);
-    return res.status(201).json(client);
-  }
-
-  async update(req: Request, res: Response): Promise<Response> {
-    const id = parseInt(req.params.id, 10);
-    const updateClientDto: UpdateClientDto = req.body;
-    const client = await this.clientService.update(id, updateClientDto);
-    if (client) {
-      return res.json(client);
-    } else {
-      return res.status(404).json({ message: 'Client not found' });
+  @Post('/')
+  public async create(
+    @Body() createClientDto: CreateClientDto,
+    @Res() notFoundResponse: TsoaResponse<404, { message: string }>,
+    @Res() internalErrorResponse: TsoaResponse<500, { message: string }>): Promise<any> {
+    try {
+      const client = await this.clientService.create(createClientDto);
+      return client;
+    } catch (error) {
+      return internalErrorResponse(500, { message: 'Internal server error' });
     }
   }
 
-  async delete(req: Request, res: Response): Promise<Response> {
-    const id = parseInt(req.params.id, 10);
-    await this.clientService.delete(id);
-    return res.status(204).send();
-  }
+  @Put('/{id}')
+  public async update(
+    @Path() id: string,
+    @Body() updateClientDto: UpdateClientDto,
+    @Res() notFoundResponse: TsoaResponse<404, { message: string }>,
+    @Res() internalErrorResponse: TsoaResponse<500, { message: string }>): Promise<any> {
 
-  async getById(req: Request, res: Response): Promise<Response> {
-    const id = parseInt(req.params.id, 10);
-    const client = await this.clientService.getById(id);
-    if (client) {
-      return res.json(client);
-    } else {
-      return res.status(404).json({ message: 'Client not found' });
-    }
-  }
-  async getClientByDocument(req: Request, res: Response): Promise<Response> {
-    const documentNum = req.params.documentNum;
-    const client = await this.clientService.getClientByDocument(documentNum);
-    if (client) {
-      return res.json(client);
-    } else {
-      return res.status(404).json({ message: 'Client not found' });
+    try {
+      const client = await this.clientService.update(Number(id), updateClientDto);
+      if (!client) {
+        return notFoundResponse(404, { message: 'Client not found' });
+      }
+      return client;
+    } catch (error) {
+      return internalErrorResponse(500, { message: 'Internal server error' });
     }
   }
 
-  async getAll(req: Request, res: Response): Promise<Response> {
-    const clients = await this.clientService.getAll();
-    return res.json(clients);
+  @Delete('/{id}')
+  public async delete(
+    @Path() id: string,
+    @Res() notFoundResponse: TsoaResponse<404, { message: string }>,
+    @Res() internalErrorResponse: TsoaResponse<500, { message: string }>): Promise<any> {
+
+    try {
+      const success = await this.clientService.delete(Number(id));
+      if (!success) {
+        return notFoundResponse(404, { message: 'Client not found' });
+      }
+    } catch (error) {
+      return internalErrorResponse(500, { message: 'Internal server error' });
+    }
+  }
+
+  @Get('/{id}')
+  public async getById(
+    @Path() id: string,
+    @Res() notFoundResponse: TsoaResponse<404, { message: string }>,
+    @Res() internalErrorResponse: TsoaResponse<500, { message: string }>): Promise<any> {
+
+    try {
+      const client = await this.clientService.getById(Number(id));
+      if (!client) {
+        return notFoundResponse(404, { message: 'Client not found' });
+      }
+      return client;
+    } catch (error) {
+      return internalErrorResponse(500, { message: 'Internal server error' });
+    }
+  }
+
+  @Get('/document/{documentNum}')
+  public async getClientByDocument(
+    @Path() documentNum: string,
+    @Res() notFoundResponse: TsoaResponse<404, { message: string }>,
+    @Res() internalErrorResponse: TsoaResponse<500, { message: string }>): Promise<any> {
+
+    try {
+      const client = await this.clientService.getClientByDocument(documentNum);
+      if (!client) {
+        return notFoundResponse(404, { message: 'Client not found' });
+      }
+      return client;
+    } catch (error) {
+      return internalErrorResponse(500, { message: 'Internal server error' });
+    }
+  }
+
+  @Get('/')
+  public async getAll(
+    @Res() internalErrorResponse: TsoaResponse<500, { message: string }>): Promise<any> {
+
+    try {
+      const clients = await this.clientService.getAll();
+      return clients;
+    } catch (error) {
+      return internalErrorResponse(500, { message: 'Internal server error' });
+    }
   }
 }
