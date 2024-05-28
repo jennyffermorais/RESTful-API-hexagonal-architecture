@@ -38,8 +38,7 @@
   <a href="#rocket-tecnologias">Tecnologias</a> &#xa0; | &#xa0;
   <a href="#white_check_mark-documentação">Documentação</a> &#xa0; | &#xa0;
   <a href="#checkered_flag-como-executar">Como Executar</a> &#xa0; | &#xa0;
-  <a href="#memo-equipe-43" target="_blank">Equipe</a> &#xa0; | &#xa0;
-  <a href="#licença">Licença</a>
+  <a href="#memo-equipe-43" target="_blank">Equipe</a>
 </p>
 
 <br>
@@ -131,11 +130,6 @@ A aplicação está configurada para utilizar MySQL conforme especificado no arq
 - [Guilherme de Lima](https://github.com/usuario2)
 - [Jennyffer de Morais](https://github.com/GuilhermeLimaSoares)
 - [Paulo Pupo](https://github.com/devpupo)
-
-## Licença ##
-
-Este projeto está sob licença MIT. Veja o arquivo [LICENSE](LICENSE.md) para mais detalhes.
-
 
 &#xa0;
 
