@@ -5,7 +5,7 @@ import { Product } from './Product';
 @Entity()
 export class Category implements ICategory {
   @PrimaryGeneratedColumn()
-  id: number;
+  categoryId: number;
 
   @Column({
     type: 'enum',

@@ -6,6 +6,6 @@ export enum CATEGORIES {
 }
 
 export interface ICategory {
-  id: number;
+  categoryId: number;
   name: CATEGORIES;
 }
