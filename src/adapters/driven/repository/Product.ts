@@ -1,6 +1,6 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, Relation } from 'typeorm';
-import { IProduct } from '../../../core/domain/Product';
-import { Category } from './Category';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { CATEGORIES, IProduct } from '../../../core/domain/Product';
+import { OrderProduct } from './OrderProduct';
 
 @Entity()
 export class Product implements IProduct {
@@ -13,12 +13,15 @@ export class Product implements IProduct {
   @Column('text')
   description: string;
 
-  @Column('decimal')
+  @Column()
   price: number;
 
-  @Column()
-  categoryId: number;
-  @OneToOne(() => Category)
-  @JoinColumn()
-  category: Relation<Category>;
+  @Column({
+    type: 'enum',
+    enum: CATEGORIES,
+  })
+  category: CATEGORIES;
+
+  @OneToMany(() => OrderProduct, (OrderProduct) => OrderProduct.product)
+  OrderProducts: OrderProduct[];
 }

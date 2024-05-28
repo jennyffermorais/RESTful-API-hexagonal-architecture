@@ -1,7 +1,7 @@
 export interface IOrderProduct {
   id: number;
   orderId: number;
-  categoryId: number;
+  productId: number;
   quantity: number;
   unitPrice: number;
 }
