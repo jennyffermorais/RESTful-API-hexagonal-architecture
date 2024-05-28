@@ -1,17 +1,11 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn, Relation } from 'typeorm';
+import { CATEGORIES, ICategory } from '../../../core/domain/Category';
 import { Product } from './Product';
 
-export enum CATEGORIES {
-  LANCHE,
-  ACOMPANHAMENTO,
-  BEBIDA,
-  SOBREMESA,
-}
-
-@Entity('category')
-export class Category {
+@Entity()
+export class Category implements ICategory {
   @PrimaryGeneratedColumn()
-  id: number;
+  categoryId: number;
 
   @Column({
     type: 'enum',
@@ -20,5 +14,5 @@ export class Category {
   name: CATEGORIES;
 
   @OneToOne(() => Product, (Product) => Product.category)
-  product: Product;
+  product: Relation<Product>;
 }

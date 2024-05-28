@@ -1,9 +1,9 @@
-import { CATEGORIES } from "../../../../driven/repository/Category";
+import { CATEGORIES } from '../../../../../core/domain/Category';
 
 export class CreateCategoryDto {
-  name: CATEGORIES | undefined;
+  name: CATEGORIES;
 }
 
 export class UpdateCategoryDto {
-  name?: CATEGORIES | undefined;
+  name?: CATEGORIES;
 }

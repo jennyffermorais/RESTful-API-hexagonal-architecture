@@ -1,4 +1,4 @@
-import { Product } from '../../../adapters/driven/repository/Product';
+import { IProduct } from '../../domain/Product';
 import { IService } from './IService';
 
-export interface IProductService extends IService<Product> {}
+export interface IProductService extends IService<IProduct> {}

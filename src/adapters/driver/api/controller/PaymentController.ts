@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
 import { OrderService } from '../../../../core/applications/services/OrderService';
-import { PAYMENT_STATUS } from '../../../driven/repository/Order';
-import { MarkOrderAsPaidRequest, OrderPaymentRequest } from './dto/PaymentDto';
+
 import { IPaymentService } from '../../../../core/applications/ports/IPaymentService';
+import { PAYMENT_STATUS } from '../../../../core/domain/Order';
+import { MarkOrderAsPaidRequest, OrderPaymentRequest } from './dto/PaymentDto';
 
 export class PaymentController {
   constructor(

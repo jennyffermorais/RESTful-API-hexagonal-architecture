@@ -1,20 +1,20 @@
 import { Between } from 'typeorm';
-import { Order, PROCESS_STATUS } from '../../../adapters/driven/repository/Order';
+import { IOrder, PROCESS_STATUS } from '../../domain/Order';
 import { IRepository } from '../ports/IRepository';
 
 export class OrderService {
-  private orderRepository: IRepository<Order>;
+  private orderRepository: IRepository<IOrder>;
 
-  constructor(orderRepository: IRepository<Order>) {
+  constructor(orderRepository: IRepository<IOrder>) {
     this.orderRepository = orderRepository;
   }
 
-  public async create(data: Partial<Order>): Promise<Order> {
+  public async create(data: Partial<IOrder>): Promise<IOrder> {
     const order = await this.orderRepository.create(data);
     return this.orderRepository.save(order);
   }
 
-  public async update(id: number, data: Partial<Order>): Promise<Order | null> {
+  public async update(id: number, data: Partial<IOrder>): Promise<IOrder | null> {
     const order = await this.orderRepository.findOneBy({ id });
 
     if (!order) {
@@ -31,13 +31,13 @@ export class OrderService {
     return result.affected !== undefined && result.affected! > 0;
   }
 
-  public async getById(id: number): Promise<Order | null> {
+  public async getById(id: number): Promise<IOrder | null> {
     const order = await this.orderRepository.findOneBy({ id });
 
     return order || null;
   }
 
-  public async getAll(): Promise<Order[]> {
+  public async getAll(): Promise<IOrder[]> {
     return this.orderRepository.find();
   }
 
@@ -45,14 +45,14 @@ export class OrderService {
     return Object.values(PROCESS_STATUS).includes(status);
   };
 
-  public async getByStatus(status: PROCESS_STATUS): Promise<Order[]> {
+  public async getByStatus(status: PROCESS_STATUS): Promise<IOrder[]> {
     return this.orderRepository.find({
       where: { processStage: status },
       order: { id: 'ASC' },
     });
   }
 
-  public async getByCreationDate(startDate: Date, endDate: Date): Promise<Order[]> {
+  public async getByCreationDate(startDate: Date, endDate: Date): Promise<IOrder[]> {
     return this.orderRepository.find({
       where: {
         date_audit: {
@@ -63,7 +63,7 @@ export class OrderService {
     });
   }
 
-  public async getByUpdateDate(startDate: Date, endDate: Date): Promise<Order[]> {
+  public async getByUpdateDate(startDate: Date, endDate: Date): Promise<IOrder[]> {
     return this.orderRepository.find({
       where: {
         date_audit: {

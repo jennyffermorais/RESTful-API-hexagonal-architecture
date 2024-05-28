@@ -1,7 +1,8 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { IClient } from '../../../core/domain/Client';
 
-@Entity('client')
-export class Client {
+@Entity()
+export class Client implements IClient {
   @PrimaryGeneratedColumn()
   id: number;
 

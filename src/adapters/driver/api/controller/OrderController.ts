@@ -1,20 +1,18 @@
-import { Request, Response } from 'express';
-import { PROCESS_STATUS } from '../../../driven/repository/Order';
-import { CreateOrderDto, UpdateOrderDto } from './dto/OrderDto';
+import { Body, Delete, Get, Path, Post, Put, Query, Res, Route, Tags, TsoaResponse } from 'tsoa';
 import { IOrderService } from '../../../../core/applications/ports/IOrderService';
-import { Delete, Get, Post, Put, Route, Tags, Body, Path, Query, Res, TsoaResponse } from 'tsoa';
+import { PROCESS_STATUS } from '../../../../core/domain/Order';
+import { CreateOrderDto, UpdateOrderDto } from './dto/OrderDto';
 
-@Route("orders")
-@Tags("Order")
+@Route('orders')
+@Tags('Order')
 export class OrderController {
-
   private orderService: IOrderService;
 
   constructor(orderService: IOrderService) {
     this.orderService = orderService;
   }
 
-  @Post("/")
+  @Post('/')
   public async create(
     @Body() createOrderDto: CreateOrderDto,
     @Res() notFoundResponse: TsoaResponse<404, { message: string }>,
@@ -28,7 +26,7 @@ export class OrderController {
     }
   }
 
-  @Put("/{id}")
+  @Put('/{id}')
   public async update(
     @Path() id: string,
     @Body() updateOrderDto: UpdateOrderDto,
@@ -46,7 +44,7 @@ export class OrderController {
     }
   }
 
-  @Delete("/{id}")
+  @Delete('/{id}')
   public async delete(
     @Path() id: string,
     @Res() notFoundResponse: TsoaResponse<404, { message: string }>,
@@ -62,7 +60,7 @@ export class OrderController {
     }
   }
 
-  @Get("/{id}")
+  @Get('/{id}')
   public async getOrderById(
     @Path() id: string,
     @Res() notFoundResponse: TsoaResponse<404, { message: string }>,
@@ -79,19 +77,17 @@ export class OrderController {
     }
   }
 
-  @Get("/")
-  public async getAllOrders(
-    @Res() internalErrorResponse: TsoaResponse<500, { message: string }>
-  ): Promise<any> {
+  @Get('/')
+  public async getAllOrders(@Res() internalErrorResponse: TsoaResponse<500, { message: string }>): Promise<any> {
     try {
       const orders = await this.orderService.getAll();
-      return res.status(200).json(orders);
+      return orders;
     } catch (error) {
       return internalErrorResponse(500, { message: 'Internal server error' });
     }
   }
 
-  @Get("/status/{status}")
+  @Get('/status/{status}')
   public async getOrdersByStatus(
     @Path() status: string,
     @Res() badRequestResponse: TsoaResponse<400, { message: string }>,
@@ -103,13 +99,13 @@ export class OrderController {
 
     try {
       const orders = await this.orderService.getByStatus(status as PROCESS_STATUS);
-      return res.status(200).json(orders);
+      return orders;
     } catch (error) {
       return internalErrorResponse(500, { message: 'Internal server error' });
     }
   }
 
-  @Get("/creation-date")
+  @Get('/creation-date')
   public async getOrdersByCreationDate(
     @Query() startDate: string,
     @Query() endDate: string,
@@ -131,7 +127,7 @@ export class OrderController {
     }
   }
 
-  @Get("/update-date")
+  @Get('/update-date')
   public async getOrdersByUpdateDate(
     @Query() startDate: string,
     @Query() endDate: string,

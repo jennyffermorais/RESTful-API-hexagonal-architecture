@@ -1,4 +1,4 @@
-import { PROCESS_STATUS } from '../../../../driven/repository/Order';
+import { PROCESS_STATUS } from '../../../../../core/domain/Order';
 
 export class CreateOrderDto {
   customerId: number;
