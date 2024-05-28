@@ -39,7 +39,6 @@ export class ProductService implements IProductService {
 
   getAll: IProductService['getAll'] = async (payload = {}) => {
     const { category } = payload;
-    console.log('category', category);
     return this.productRepository.find({ category });
   };
 }

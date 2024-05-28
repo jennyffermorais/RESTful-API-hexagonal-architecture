@@ -43,7 +43,6 @@ export class ProductController {
   }
 
   async getAllProducts(req: Request, res: Response): Promise<Response> {
-    // get category from query params
     const category = req.query.category as string;
     const products = await this.productService.getAll({ category });
     return res.status(200).json(products);
