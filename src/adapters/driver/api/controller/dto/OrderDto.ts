@@ -8,7 +8,6 @@ export class CreateOrderDto {
     unitPrice: number;
   }>;
   totalAmount: number;
-  status: PROCESS_STATUS;
 }
 
 export class UpdateOrderDto {

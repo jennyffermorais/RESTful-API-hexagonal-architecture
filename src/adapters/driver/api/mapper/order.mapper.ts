@@ -3,11 +3,10 @@ import { IOrderProduct } from '../../../../core/domain/OrderProduct';
 import { CreateOrderDto } from '../controller/dto/OrderDto';
 
 export const toOrder = (data: CreateOrderDto): { order: Partial<IOrder>; products: Partial<IOrderProduct>[] } => {
-  const { customerId, items, totalAmount, status } = data;
+  const { customerId, items, totalAmount } = data;
 
   const order: Partial<IOrder> = {
     customerId,
-    processStage: status,
     totalAmount: totalAmount,
     paymentStatus: PAYMENT_STATUS.PENDING,
   };
