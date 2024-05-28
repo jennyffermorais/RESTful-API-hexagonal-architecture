@@ -15,7 +15,7 @@
 
   <img alt="Tamanho do repositório" src="https://img.shields.io/github/repo-size/jennyffermorais/restfull-api-hexagonal-architecture?color=56BEB8">
 
-  <img alt="Licença" src="https://img.shields.io/github/license/jennyffermorais/restfull-api-hexagonal-architecture?color=56BEB8">
+  <!-- <img alt="Licença" src="https://img.shields.io/github/license/jennyffermorais/restfull-api-hexagonal-architecture?color=56BEB8"> -->
 
   <!-- <img alt="Github issues" src="https://img.shields.io/github/issues/jennyffermorais/restfull-api-hexagonal-architecture?color=56BEB8" /> -->
 
