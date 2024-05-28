@@ -1,21 +1,29 @@
-import { BaseEntity, Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, Relation } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  Relation,
+  UpdateDateColumn,
+} from 'typeorm';
 import { IOrder, PAYMENT_STATUS, PROCESS_STATUS } from '../../../core/domain/Order';
 import { Client } from './Client';
 import { OrderProduct } from './OrderProduct';
-import { DateAudit } from './embedded/date-audit';
 
 @Entity()
 export class Order extends BaseEntity implements IOrder {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToMany(() => OrderProduct, (OrderProduct) => OrderProduct.order)
+  @OneToMany(() => OrderProduct, (OrderProduct) => OrderProduct.order, { eager: true })
   orderProducts: Relation<OrderProduct[]>;
 
   @Column({ nullable: true })
   clientId: number;
-  @OneToOne(() => Client)
-  @JoinColumn()
+  @ManyToOne(() => Client, (Client) => Client.orders)
   client: Relation<Client>;
 
   @Column({
@@ -35,12 +43,9 @@ export class Order extends BaseEntity implements IOrder {
   })
   paymentStatus: PAYMENT_STATUS;
 
-  @Column(() => DateAudit, { prefix: '' })
-  date_audit: DateAudit;
-
-  @Column()
+  @CreateDateColumn({ name: 'createdAt', update: false })
   createdAt: Date;
 
-  @Column()
+  @UpdateDateColumn({ name: 'updatedAt', update: false })
   updatedAt: Date;
 }
