@@ -7,13 +7,13 @@ export class Product implements IProduct {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('text')
+  @Column()
   name: string;
 
-  @Column('text')
+  @Column()
   description: string;
 
-  @Column()
+  @Column({ type: 'float' })
   price: number;
 
   @Column({

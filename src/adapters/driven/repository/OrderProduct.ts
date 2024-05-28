@@ -21,6 +21,6 @@ export class OrderProduct extends BaseEntity implements IOrderProduct {
   @Column('int')
   quantity: number;
 
-  @Column('decimal', { precision: 10, scale: 2 })
+  @Column({ type: 'float' })
   unitPrice: number;
 }

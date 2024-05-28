@@ -25,7 +25,7 @@ export class Order extends BaseEntity implements IOrder {
   })
   processStage: PROCESS_STATUS;
 
-  @Column('decimal', { precision: 10, scale: 2, nullable: true })
+  @Column({ type: 'float', nullable: true })
   totalAmount: number;
 
   @Column({

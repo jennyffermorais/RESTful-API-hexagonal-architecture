@@ -6,13 +6,13 @@ export class Client implements IClient {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('text')
+  @Column()
   name: string;
 
-  @Column('text')
+  @Column()
   documentNum: string;
 
-  @Column('text')
+  @Column()
   dateBirthday: string;
 
   @Column()
