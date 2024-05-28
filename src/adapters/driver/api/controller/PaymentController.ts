@@ -1,6 +1,6 @@
-import { Post, Route, Body, Tags } from 'tsoa';
-import { OrderService } from '../../../../core/applications/services/OrderService';
+import { Body, Post, Route, Tags } from 'tsoa';
 import { IPaymentService } from '../../../../core/applications/ports/services/IPaymentService';
+import { OrderService } from '../../../../core/applications/services/OrderService';
 import { PAYMENT_STATUS } from '../../../../core/domain/Order';
 import { MarkOrderAsPaidRequest, OrderPaymentRequest } from './dto/PaymentDto';
 
@@ -13,8 +13,11 @@ export class PaymentController {
   ) {}
 
   @Post('create')
-  public async createOrderPayment(@Body() requestBody: OrderPaymentRequest): Promise<{ paymentUrl: string } | { message: string }> {
+  public async createOrderPayment(
+    @Body() requestBody: OrderPaymentRequest
+  ): Promise<{ paymentUrl: string } | { message: string }> {
     const { orderId } = requestBody;
+
     const order = await this.orderService.getById(orderId);
     if (!order) {
       return { message: 'Order not found' };

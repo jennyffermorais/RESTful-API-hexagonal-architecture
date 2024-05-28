@@ -6,7 +6,7 @@ export const toOrder = (data: CreateOrderDto): { order: Partial<IOrder>; product
   const { customerId, items, totalAmount, status } = data;
 
   const order: Partial<IOrder> = {
-    clientId: customerId,
+    customerId,
     processStage: status,
     totalAmount: totalAmount,
     paymentStatus: PAYMENT_STATUS.PENDING,

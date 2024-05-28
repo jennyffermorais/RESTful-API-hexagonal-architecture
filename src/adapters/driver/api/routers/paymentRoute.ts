@@ -1,12 +1,12 @@
-import { Router, Request, Response } from 'express';
+import { Request, Response, Router } from 'express';
 import { OrderService } from '../../../../core/applications/services/OrderService';
 import { PaymentServiceACL } from '../../../../core/applications/services/PaymentService';
 import { AppDataSource } from '../../../../data-source';
 import { Order } from '../../../driven/repository/Order';
 import { OrderProduct } from '../../../driven/repository/OrderProduct';
 import { PaymentController } from '../controller/PaymentController';
+import { MarkOrderAsPaidRequest, OrderPaymentRequest } from '../controller/dto/PaymentDto';
 import { TypeORMRepository } from '../repository/TypeORMRepository';
-import { OrderPaymentRequest, MarkOrderAsPaidRequest } from '../controller/dto/PaymentDto';
 
 const orderRepository = new TypeORMRepository<Order>(AppDataSource, Order);
 const orderProductRepository = new TypeORMRepository<OrderProduct>(AppDataSource, OrderProduct);
