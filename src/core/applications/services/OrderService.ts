@@ -1,17 +1,29 @@
 import { Between } from 'typeorm';
 import { IOrder, PROCESS_STATUS } from '../../domain/Order';
+import { IOrderProduct } from '../../domain/OrderProduct';
 import { IRepository } from '../ports/repositories/IRepository';
+import { IOrderService } from '../ports/services/IOrderService';
 
-export class OrderService {
+export class OrderService implements IOrderService {
   private orderRepository: IRepository<IOrder>;
+  private orderProductRepository: IRepository<IOrderProduct>;
 
-  constructor(orderRepository: IRepository<IOrder>) {
+  constructor(orderRepository: IRepository<IOrder>, orderProductRepository: IRepository<IOrderProduct>) {
     this.orderRepository = orderRepository;
+    this.orderProductRepository = orderProductRepository;
   }
 
-  public async create(data: Partial<IOrder>): Promise<IOrder> {
-    const order = await this.orderRepository.create(data);
-    return this.orderRepository.save(order);
+  public async create(orderData: Partial<IOrder>, productsData: Partial<IOrderProduct>[]): Promise<IOrder> {
+    const { id, ...restOrderData } = orderData;
+    const order = await this.orderRepository.create(restOrderData);
+    const orderProducts = productsData.map((product) => ({
+      ...product,
+      orderId: order.id,
+    }));
+
+    await this.orderProductRepository.createMany(orderProducts);
+
+    return order;
   }
 
   public async update(id: number, data: Partial<IOrder>): Promise<IOrder | null> {
@@ -37,9 +49,10 @@ export class OrderService {
     return order || null;
   }
 
-  public async getAll(): Promise<IOrder[]> {
-    return this.orderRepository.find();
-  }
+  getAll: IOrderService['getAll'] = async (payload = {}) => {
+    const { processStage } = payload;
+    return this.orderRepository.find({ where: { processStage } });
+  };
 
   public isValidStatus = (status: any): status is PROCESS_STATUS => {
     return Object.values(PROCESS_STATUS).includes(status);

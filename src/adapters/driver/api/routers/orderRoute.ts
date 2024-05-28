@@ -1,25 +1,21 @@
 import express from 'express';
 import { IOrderService } from '../../../../core/applications/ports/services/IOrderService';
 import { OrderService } from '../../../../core/applications/services/OrderService';
+import { PROCESS_STATUS } from '../../../../core/domain/Order';
 import { AppDataSource } from '../../../../data-source';
 import { Order } from '../../../driven/repository/Order';
+import { OrderProduct } from '../../../driven/repository/OrderProduct';
 import { OrderController } from '../controller/OrderController';
 import { TypeORMRepository } from '../repository/TypeORMRepository';
 
 const orderRepository = new TypeORMRepository<Order>(AppDataSource, Order);
-const orderService: IOrderService = new OrderService(orderRepository);
+const orderProductRepository = new TypeORMRepository<OrderProduct>(AppDataSource, OrderProduct);
+const orderService: IOrderService = new OrderService(orderRepository, orderProductRepository);
 const orderController = new OrderController(orderService);
 
 const router = express.Router();
 router.post('/orders', async (req, res) => {
   try {
-    // {
-    //   clientId: number;
-    //   totalAmount: number;
-    //   products: [{productId, quantity}, ...]
-    //   createdAt: Date;
-    //   updatedAt: Date;
-    // }
     const result = await orderController.create(req.body, res.status.bind(res, 404), res.status.bind(res, 500));
     res.status(201).json(result);
   } catch (error) {
@@ -54,6 +50,7 @@ router.get('/orders/:id', async (req, res) => {
   try {
     const result = await orderController.getOrderById(
       req.params.id,
+
       res.status.bind(res, 404),
       res.status.bind(res, 500)
     );
@@ -65,7 +62,8 @@ router.get('/orders/:id', async (req, res) => {
 
 router.get('/orders', async (req, res) => {
   try {
-    const result = await orderController.getAllOrders(res.status.bind(res, 500));
+    const processStage = req.query.processStage as PROCESS_STATUS;
+    const result = await orderController.getAllOrders(processStage, res.status.bind(res, 500));
     res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });

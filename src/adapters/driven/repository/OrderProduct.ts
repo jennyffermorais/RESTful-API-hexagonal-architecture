@@ -15,7 +15,7 @@ export class OrderProduct extends BaseEntity implements IOrderProduct {
 
   @Column()
   productId: number;
-  @ManyToOne(() => Product, (Product) => Product.OrderProducts)
+  @ManyToOne(() => Product, (Product) => Product.OrderProducts, { eager: true })
   product: Relation<Product>;
 
   @Column('int')

@@ -1,6 +1,7 @@
 import { Body, Delete, Get, Path, Post, Put, Query, Res, Route, Tags, TsoaResponse } from 'tsoa';
 import { IOrderService } from '../../../../core/applications/ports/services/IOrderService';
 import { PROCESS_STATUS } from '../../../../core/domain/Order';
+import { toOrder } from '../mapper/order.mapper';
 import { CreateOrderDto, UpdateOrderDto } from './dto/OrderDto';
 
 @Route('orders')
@@ -19,9 +20,10 @@ export class OrderController {
     @Res() internalErrorResponse: TsoaResponse<500, { message: string }>
   ): Promise<any> {
     try {
-      const order = await this.orderService.create(createOrderDto);
-      return order;
+      const { order, products } = toOrder(createOrderDto);
+      return await this.orderService.create(order, products);
     } catch (error) {
+      console.log(error);
       return internalErrorResponse(500, { message: 'Internal server error' });
     }
   }
@@ -78,9 +80,13 @@ export class OrderController {
   }
 
   @Get('/')
-  public async getAllOrders(@Res() internalErrorResponse: TsoaResponse<500, { message: string }>): Promise<any> {
+  public async getAllOrders(
+    @Query() processStage: PROCESS_STATUS,
+    @Res() internalErrorResponse: TsoaResponse<500, { message: string }>
+  ): Promise<any> {
     try {
-      const orders = await this.orderService.getAll();
+      // get processStage from query params
+      const orders = await this.orderService.getAll({ processStage });
       return orders;
     } catch (error) {
       return internalErrorResponse(500, { message: 'Internal server error' });
