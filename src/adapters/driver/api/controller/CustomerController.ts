@@ -1,25 +1,25 @@
 import { Body, Delete, Get, Path, Post, Put, Query, Res, Route, Tags, TsoaResponse } from 'tsoa';
-import { IClientService } from '../../../../core/applications/ports/services/IClientService';
-import { CreateClientDto, UpdateClientDto } from './dto/ClientDto';
+import { ICustomerService } from '../../../../core/applications/ports/services/ICustomerService';
+import { CreateCustomerDto, UpdateCustomerDto } from './dto/CustomerDto';
 
-@Route('clients')
-@Tags('Clients')
-export class ClientController {
-  private clientService: IClientService;
+@Route('customers')
+@Tags('Customers')
+export class CustomerController {
+  private customerService: ICustomerService;
 
-  constructor(clientService: IClientService) {
-    this.clientService = clientService;
+  constructor(customerService: ICustomerService) {
+    this.customerService = customerService;
   }
 
   @Post('/')
   public async create(
-    @Body() createClientDto: CreateClientDto,
+    @Body() createCustomerDto: CreateCustomerDto,
     @Res() notFoundResponse: TsoaResponse<404, { message: string }>,
     @Res() internalErrorResponse: TsoaResponse<500, { message: string }>
   ): Promise<any> {
     try {
-      const client = await this.clientService.create(createClientDto);
-      return client;
+      const customer = await this.customerService.create(createCustomerDto);
+      return customer;
     } catch (error) {
       return internalErrorResponse(500, { message: 'Internal server error' });
     }
@@ -28,16 +28,16 @@ export class ClientController {
   @Put('/{id}')
   public async update(
     @Path() id: string,
-    @Body() updateClientDto: UpdateClientDto,
+    @Body() updateCustomerDto: UpdateCustomerDto,
     @Res() notFoundResponse: TsoaResponse<404, { message: string }>,
     @Res() internalErrorResponse: TsoaResponse<500, { message: string }>
   ): Promise<any> {
     try {
-      const client = await this.clientService.update(Number(id), updateClientDto);
-      if (!client) {
-        return notFoundResponse(404, { message: 'Client not found' });
+      const customer = await this.customerService.update(Number(id), updateCustomerDto);
+      if (!customer) {
+        return notFoundResponse(404, { message: 'Csutomer not found' });
       }
-      return client;
+      return customer;
     } catch (error) {
       return internalErrorResponse(500, { message: 'Internal server error' });
     }
@@ -50,9 +50,9 @@ export class ClientController {
     @Res() internalErrorResponse: TsoaResponse<500, { message: string }>
   ): Promise<any> {
     try {
-      const success = await this.clientService.delete(Number(id));
+      const success = await this.customerService.delete(Number(id));
       if (!success) {
-        return notFoundResponse(404, { message: 'Client not found' });
+        return notFoundResponse(404, { message: 'Customer not found' });
       }
     } catch (error) {
       return internalErrorResponse(500, { message: 'Internal server error' });
@@ -66,28 +66,28 @@ export class ClientController {
     @Res() internalErrorResponse: TsoaResponse<500, { message: string }>
   ): Promise<any> {
     try {
-      const client = await this.clientService.getById(Number(id));
-      if (!client) {
-        return notFoundResponse(404, { message: 'Client not found' });
+      const customer = await this.customerService.getById(Number(id));
+      if (!customer) {
+        return notFoundResponse(404, { message: 'Customer not found' });
       }
-      return client;
+      return customer;
     } catch (error) {
       return internalErrorResponse(500, { message: 'Internal server error' });
     }
   }
 
   @Get('/document/{documentNum}')
-  public async getClientByDocument(
+  public async getCustomerByDocument(
     @Path() documentNum: string,
     @Res() notFoundResponse: TsoaResponse<404, { message: string }>,
     @Res() internalErrorResponse: TsoaResponse<500, { message: string }>
   ): Promise<any> {
     try {
-      const client = await this.clientService.getClientByDocument(documentNum);
-      if (!client) {
-        return notFoundResponse(404, { message: 'Client not found' });
+      const customer = await this.customerService.getCustomerByDocument(documentNum);
+      if (!customer) {
+        return notFoundResponse(404, { message: 'Customer not found' });
       }
-      return client;
+      return customer;
     } catch (error) {
       return internalErrorResponse(500, { message: 'Internal server error' });
     }
@@ -99,8 +99,8 @@ export class ClientController {
     @Res() internalErrorResponse: TsoaResponse<500, { message: string }>
   ): Promise<any> {
     try {
-      const clients = await this.clientService.getAll({ documentNum });
-      return clients;
+      const customers = await this.customerService.getAll({ documentNum });
+      return customers;
     } catch (error) {
       return internalErrorResponse(500, { message: 'Internal server error' });
     }
