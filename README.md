@@ -33,13 +33,13 @@
 <hr> -->
 
 <p align="center">
-  <a href="#sobre">Sobre</a> &#xa0; | &#xa0;
-  <a href="#funcionalidades">Funcionalidades</a> &#xa0; | &#xa0;
-  <a href="#tecnologias">Tecnologias</a> &#xa0; | &#xa0;
-  <a href="#documentacao">Documentação</a> &#xa0; | &#xa0;
-  <a href="#como-executar">Como Executar</a> &#xa0; | &#xa0;
-  <a href="#equipe-43">Equipe</a> &#xa0; | &#xa0;
-  <a href="#licenca">Licença</a>
+  <a href="#dart-sobre">Sobre</a> &#xa0; | &#xa0;
+  <a href="#sparkles-funcionalidades">Funcionalidades</a> &#xa0; | &#xa0;
+  <a href="#rocket-tecnologias">Tecnologias</a> &#xa0; | &#xa0;
+  <a href="#white_check_mark-pré-requisitos">Pré requisitos</a> &#xa0; | &#xa0;
+  <a href="#checkered_flag-começando">Começando</a> &#xa0; | &#xa0;
+  <a href="#memo-licença">Licença</a> &#xa0; | &#xa0;
+  <a href="https://github.com/jennyffermorais" target="_blank">Autor</a>
 </p>
 
 <br>
@@ -125,7 +125,7 @@ Os diagramas foram desenhados seguindo os padrões explicados na aula e utilizan
 
 A aplicação está configurada para utilizar MySQL conforme especificado no arquivo `docker-compose.yml`.
 
-## 🧩 Equipe 43
+## Equipe 43
 
 - [Felipe Carmo](https://github.com/carmof)
 - [Guilherme de Lima](https://github.com/usuario2)
