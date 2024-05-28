@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
-import { OrderService } from '../../../../core/applications/services/OrderService';
-
 import { IPaymentService } from '../../../../core/applications/ports/services/IPaymentService';
+import { OrderService } from '../../../../core/applications/services/OrderService';
 import { PAYMENT_STATUS } from '../../../../core/domain/Order';
 import { MarkOrderAsPaidRequest, OrderPaymentRequest } from './dto/PaymentDto';
 
@@ -13,6 +12,9 @@ export class PaymentController {
 
   async createOrderPayment(req: Request, res: Response): Promise<Response> {
     const { orderId }: OrderPaymentRequest = req.body;
+    console.log({ orderId });
+    console.log('augusto', this);
+    console.log('felipe', this.orderService);
     const order = await this.orderService.getById(orderId);
     if (!order) {
       return res.status(404).json({ message: 'Order not found' });
