@@ -21,8 +21,9 @@ export class OrderController {
   ): Promise<any> {
     try {
       const { order, products } = toOrder(createOrderDto);
-      return await this.orderService.create(order);
+      return await this.orderService.create(order, products);
     } catch (error) {
+      console.log(error);
       return internalErrorResponse(500, { message: 'Internal server error' });
     }
   }

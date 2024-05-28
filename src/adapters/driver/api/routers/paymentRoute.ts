@@ -3,11 +3,16 @@ import { OrderService } from '../../../../core/applications/services/OrderServic
 import { PaymentServiceACL } from '../../../../core/applications/services/PaymentService';
 import { AppDataSource } from '../../../../data-source';
 import { Order } from '../../../driven/repository/Order';
+import { OrderProduct } from '../../../driven/repository/OrderProduct';
 import { PaymentController } from '../controller/PaymentController';
 import { TypeORMRepository } from '../repository/TypeORMRepository';
 
 const orderRepository = new TypeORMRepository<Order>(AppDataSource, Order);
-const paymentController = new PaymentController(new PaymentServiceACL(), new OrderService(orderRepository));
+const orderProductRepository = new TypeORMRepository<OrderProduct>(AppDataSource, OrderProduct);
+const paymentController = new PaymentController(
+  new PaymentServiceACL(),
+  new OrderService(orderRepository, orderProductRepository)
+);
 
 const paymentRoute = Router();
 paymentRoute.post('/payments/create', paymentController.createOrderPayment);

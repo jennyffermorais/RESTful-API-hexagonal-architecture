@@ -2,8 +2,9 @@ import { Between } from 'typeorm';
 import { IOrder, PROCESS_STATUS } from '../../domain/Order';
 import { IOrderProduct } from '../../domain/OrderProduct';
 import { IRepository } from '../ports/repositories/IRepository';
+import { IOrderService } from '../ports/services/IOrderService';
 
-export class OrderService {
+export class OrderService implements IOrderService {
   private orderRepository: IRepository<IOrder>;
   private orderProductRepository: IRepository<IOrderProduct>;
 
@@ -12,8 +13,9 @@ export class OrderService {
     this.orderProductRepository = orderProductRepository;
   }
 
-  public async create(data: Partial<IOrder>, productsData: Partial<IOrderProduct>[]): Promise<IOrder> {
-    const order = await this.orderRepository.create(data);
+  public async create(orderData: Partial<IOrder>, productsData: Partial<IOrderProduct>[]): Promise<IOrder> {
+    const { id, ...restOrderData } = orderData;
+    const order = await this.orderRepository.create(restOrderData);
     const orderProducts = productsData.map((product) => ({
       ...product,
       orderId: order.id,
