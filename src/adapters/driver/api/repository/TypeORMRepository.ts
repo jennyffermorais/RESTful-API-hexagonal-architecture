@@ -1,4 +1,4 @@
-import { Repository, DataSource, ObjectLiteral } from 'typeorm';
+import { DataSource, ObjectLiteral, Repository } from 'typeorm';
 import { IRepository } from '../../../../core/applications/ports/repositories/IRepository';
 
 export class TypeORMRepository<T extends ObjectLiteral> implements IRepository<T> {
@@ -13,6 +13,11 @@ export class TypeORMRepository<T extends ObjectLiteral> implements IRepository<T
     return this.repository.save(entity);
   }
 
+  createMany(data: T[]): Promise<T[]> {
+    const entities = this.repository.create(data);
+    return this.repository.save(entities);
+  }
+
   save(entity: T): Promise<T> {
     return this.repository.save(entity);
   }
@@ -21,7 +26,7 @@ export class TypeORMRepository<T extends ObjectLiteral> implements IRepository<T
     return this.repository.findOneBy(where);
   }
 
-  delete(id: number): Promise<{affected?: number | null}> {
+  delete(id: number): Promise<{ affected?: number | null }> {
     return this.repository.delete(id);
   }
 
