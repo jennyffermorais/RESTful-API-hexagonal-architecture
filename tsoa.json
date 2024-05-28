@@ -1,0 +1,14 @@
+{
+    "entryFile": "src/index.ts",
+    "noImplicitAdditionalProperties": "throw-on-extras",
+    "controllerPathGlobs": [
+        "src/adapters/driver/api/controller/*.ts"
+    ],
+    "spec": {
+        "outputDirectory": "dist",
+        "specVersion": 3
+      },
+      "routes": {
+        "routesDir": "dist/routes"
+      }
+}
