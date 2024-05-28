@@ -1,10 +1,11 @@
 import { IProduct } from '../../domain/Product';
-import { IRepository } from '../ports/IRepository';
+import { IProductRepository } from '../ports/repositories/IProductRepository';
+import { IProductService } from '../ports/services/IProductService';
 
-export class ProductService {
-  private productRepository: IRepository<IProduct>;
+export class ProductService implements IProductService {
+  private productRepository: IProductRepository;
 
-  constructor(productRepository: IRepository<IProduct>) {
+  constructor(productRepository: IProductRepository) {
     this.productRepository = productRepository;
   }
 
@@ -36,7 +37,9 @@ export class ProductService {
     return product || null;
   }
 
-  public async getAll(): Promise<IProduct[]> {
-    return this.productRepository.find();
-  }
+  getAll: IProductService['getAll'] = async (payload = {}) => {
+    const { category } = payload;
+    console.log('category', category);
+    return this.productRepository.find({ category });
+  };
 }

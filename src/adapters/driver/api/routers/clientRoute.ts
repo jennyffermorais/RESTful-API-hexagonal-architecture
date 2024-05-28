@@ -1,5 +1,5 @@
 import express, { Router } from 'express';
-import { IClientService } from '../../../../core/applications/ports/IClientService';
+import { IClientService } from '../../../../core/applications/ports/services/IClientService';
 import { ClientService } from '../../../../core/applications/services/ClientService';
 import { AppDataSource } from '../../../../data-source';
 import { Client } from '../../../driven/repository/Client';

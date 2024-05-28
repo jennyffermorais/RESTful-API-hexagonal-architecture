@@ -1,4 +1,4 @@
-import { IPaymentService } from '../ports/IPaymentService';
+import { IPaymentService } from '../ports/services/IPaymentService';
 
 export class PaymentServiceACL implements IPaymentService {
   async requestPaymentUrl(payload: { paymentValue: number }): Promise<string> {

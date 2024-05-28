@@ -1,5 +1,5 @@
 import express from 'express';
-import { IOrderService } from '../../../../core/applications/ports/IOrderService';
+import { IOrderService } from '../../../../core/applications/ports/services/IOrderService';
 import { OrderService } from '../../../../core/applications/services/OrderService';
 import { AppDataSource } from '../../../../data-source';
 import { Order } from '../../../driven/repository/Order';

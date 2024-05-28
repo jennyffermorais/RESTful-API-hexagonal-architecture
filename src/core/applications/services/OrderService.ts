@@ -1,6 +1,6 @@
 import { Between } from 'typeorm';
 import { IOrder, PROCESS_STATUS } from '../../domain/Order';
-import { IRepository } from '../ports/IRepository';
+import { IRepository } from '../ports/repositories/IRepository';
 
 export class OrderService {
   private orderRepository: IRepository<IOrder>;
