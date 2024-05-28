@@ -36,10 +36,10 @@
   <a href="#dart-sobre">Sobre</a> &#xa0; | &#xa0;
   <a href="#sparkles-funcionalidades">Funcionalidades</a> &#xa0; | &#xa0;
   <a href="#rocket-tecnologias">Tecnologias</a> &#xa0; | &#xa0;
-  <a href="#white_check_mark-pré-requisitos">Pré requisitos</a> &#xa0; | &#xa0;
-  <a href="#checkered_flag-começando">Começando</a> &#xa0; | &#xa0;
-  <a href="#memo-licença">Licença</a> &#xa0; | &#xa0;
-  <a href="https://github.com/jennyffermorais" target="_blank">Autor</a>
+  <a href="#white_check_mark-documentação">Documentação</a> &#xa0; | &#xa0;
+  <a href="#checkered_flag-como-executar">Como Executar</a> &#xa0; | &#xa0;
+  <a href="#memo-equipe-43" target="_blank">Equipe</a> &#xa0; | &#xa0;
+  <a href="#licença">Licença</a>
 </p>
 
 <br>
@@ -80,7 +80,7 @@ As seguintes ferramentas foram usadas na construção do projeto:
 A documentação do sistema foi desenvolvida seguindo os princípios de DDD com Event Storming, incluindo todos os tipos de diagrama apresentados na aula 6 do módulo de DDD.
 
 
-### Fluxos Documentados
+#### Fluxos Documentados
 
 1. **Realização do Pedido e Pagamento**
 2. **Preparação e Entrega do Pedido**
@@ -90,11 +90,11 @@ Os diagramas foram desenhados seguindo os padrões explicados na aula e utilizan
 
 ## :checkered_flag: Como Executar ##
 
-### Pré-requisitos
+#### Pré-requisitos
 
 - **Docker** e **Docker Compose** instalados na máquina.
 
-### Passos para Execução
+#### Passos para Execução
 
 1. Clone este repositório para sua máquina local.
    ```bash
@@ -121,18 +121,18 @@ Os diagramas foram desenhados seguindo os padrões explicados na aula e utilizan
 4. Acesse o Swagger para testar as APIs.
    - O Swagger estará disponível em `http://localhost:3000/docs`.
 
-### Banco de Dados
+#### Banco de Dados
 
 A aplicação está configurada para utilizar MySQL conforme especificado no arquivo `docker-compose.yml`.
 
-## Equipe 43
+## :memo: Equipe 43
 
 - [Felipe Carmo](https://github.com/carmof)
 - [Guilherme de Lima](https://github.com/usuario2)
 - [Jennyffer de Morais](https://github.com/GuilhermeLimaSoares)
 - [Paulo Pupo](https://github.com/devpupo)
 
-## :memo: Licença ##
+## Licença ##
 
 Este projeto está sob licença MIT. Veja o arquivo [LICENSE](LICENSE.md) para mais detalhes.
 
