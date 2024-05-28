@@ -85,7 +85,6 @@ export class OrderController {
     @Res() internalErrorResponse: TsoaResponse<500, { message: string }>
   ): Promise<any> {
     try {
-      // get processStage from query params
       const orders = await this.orderService.getAll({ processStage });
       return orders;
     } catch (error) {
