@@ -33,13 +33,13 @@
 <hr> -->
 
 <p align="center">
-  <a href="#dart-sobre">Sobre</a> &#xa0; | &#xa0;
-  <a href="#sparkles-funcionalidades">Funcionalidades</a> &#xa0; | &#xa0;
-  <a href="#rocket-tecnologias">Tecnologias</a> &#xa0; | &#xa0;
-  <a href="#white_check_mark-pré-requisitos">Documentação </a> &#xa0; | &#xa0;
-  <a href="#checkered_flag-começando">Como Executar</a> &#xa0; | &#xa0;
+  <a href="#sobre">Sobre</a> &#xa0; | &#xa0;
+  <a href="#funcionalidades">Funcionalidades</a> &#xa0; | &#xa0;
+  <a href="#tecnologias">Tecnologias</a> &#xa0; | &#xa0;
+  <a href="#documentacao">Documentação</a> &#xa0; | &#xa0;
+  <a href="#como-executar">Como Executar</a> &#xa0; | &#xa0;
   <a href="#equipe-43">Equipe</a> &#xa0; | &#xa0;
-  <a href="#memo-licença">Licença</a>
+  <a href="#licenca">Licença</a>
 </p>
 
 <br>
