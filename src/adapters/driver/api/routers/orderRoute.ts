@@ -16,7 +16,7 @@ const orderController = new OrderController(orderService);
 const router = express.Router();
 router.post('/orders', async (req, res) => {
   try {
-    const result = await orderController.create(req.body, res.status.bind(res, 404), res.status.bind(res, 500));
+    const result = await orderController.create(req.body, res.status.bind(res, 500));
     res.status(201).json(result);
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });

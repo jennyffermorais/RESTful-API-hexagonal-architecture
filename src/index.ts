@@ -9,7 +9,7 @@ import orderRoute from './adapters/driver/api/routers/orderRoute';
 import { paymentRoute } from './adapters/driver/api/routers/paymentRoute';
 import productRoute from './adapters/driver/api/routers/productRoute';
 import { AppDataSource } from './data-source';
-import swaggerDocument from './swagger/swagger.json';
+import swaggerDocument from '../dist/swagger.json';
 
 const app = express();
 

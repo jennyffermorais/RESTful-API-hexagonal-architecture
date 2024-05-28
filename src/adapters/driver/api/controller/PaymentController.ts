@@ -1,54 +1,58 @@
-import { Request, Response } from 'express';
+import { Body, Post, Route, Tags } from 'tsoa';
 import { IPaymentService } from '../../../../core/applications/ports/services/IPaymentService';
 import { OrderService } from '../../../../core/applications/services/OrderService';
 import { PAYMENT_STATUS } from '../../../../core/domain/Order';
 import { MarkOrderAsPaidRequest, OrderPaymentRequest } from './dto/PaymentDto';
 
+@Route('payments')
+@Tags('Payments')
 export class PaymentController {
   constructor(
     private readonly paymentGatewayService: IPaymentService,
     private readonly orderService: OrderService
   ) {}
 
-  async createOrderPayment(req: Request, res: Response): Promise<Response> {
-    const { orderId }: OrderPaymentRequest = req.body;
-    console.log({ orderId });
-    console.log('augusto', this);
-    console.log('felipe', this.orderService);
+  @Post('create')
+  public async createOrderPayment(
+    @Body() requestBody: OrderPaymentRequest
+  ): Promise<{ paymentUrl: string } | { message: string }> {
+    const { orderId } = requestBody;
+
     const order = await this.orderService.getById(orderId);
     if (!order) {
-      return res.status(404).json({ message: 'Order not found' });
+      return { message: 'Order not found' };
     }
     if (order.paymentStatus === PAYMENT_STATUS.PAID) {
-      return res.status(400).json({ message: 'Order already paid' });
+      return { message: 'Order already paid' };
     }
     if (order.paymentStatus === PAYMENT_STATUS.CANCELLED) {
-      return res.status(400).json({ message: 'Order cancelled' });
+      return { message: 'Order cancelled' };
     }
     if (order.paymentStatus !== PAYMENT_STATUS.PENDING) {
-      return res.status(400).json({ message: 'Order is not in a valid payment status to proceed' });
+      return { message: 'Order is not in a valid payment status to proceed' };
     }
 
     const paymentUrl = await this.paymentGatewayService.requestPaymentUrl({ paymentValue: order.totalAmount });
 
-    return res.status(200).json({ paymentUrl });
+    return { paymentUrl };
   }
 
-  async markOrderAsPaid(req: Request, res: Response): Promise<Response> {
-    const { orderId, status: paymentResponseStatus }: MarkOrderAsPaidRequest = req.body;
+  @Post('mark-as-paid')
+  public async markOrderAsPaid(@Body() requestBody: MarkOrderAsPaidRequest): Promise<{ message: string }> {
+    const { orderId, status: paymentResponseStatus } = requestBody;
     const order = await this.orderService.getById(orderId);
 
     if (!order) {
-      return res.status(404).json({ message: 'Order not found' });
+      return { message: 'Order not found' };
     }
     if (order.paymentStatus === PAYMENT_STATUS.PAID) {
-      return res.status(400).json({ message: 'Order already paid' });
+      return { message: 'Order already paid' };
     }
     if (order.paymentStatus === PAYMENT_STATUS.CANCELLED) {
-      return res.status(400).json({ message: 'Order cancelled' });
+      return { message: 'Order cancelled' };
     }
     if (order.paymentStatus !== PAYMENT_STATUS.PENDING) {
-      return res.status(400).json({ message: 'Order is not in a valid payment status to proceed' });
+      return { message: 'Order is not in a valid payment status to proceed' };
     }
 
     if (paymentResponseStatus !== 'PAID') {
@@ -57,6 +61,6 @@ export class PaymentController {
       await this.orderService.update(orderId, { paymentStatus: PAYMENT_STATUS.PAID });
     }
 
-    return res.status(200).json({ message: 'Order paid successfully' });
+    return { message: 'Order paid successfully' };
   }
 }

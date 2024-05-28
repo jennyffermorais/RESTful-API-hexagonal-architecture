@@ -16,7 +16,6 @@ export class OrderController {
   @Post('/')
   public async create(
     @Body() createOrderDto: CreateOrderDto,
-    @Res() notFoundResponse: TsoaResponse<404, { message: string }>,
     @Res() internalErrorResponse: TsoaResponse<500, { message: string }>
   ): Promise<any> {
     try {
