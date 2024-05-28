@@ -36,10 +36,10 @@
   <a href="#dart-sobre">Sobre</a> &#xa0; | &#xa0;
   <a href="#sparkles-funcionalidades">Funcionalidades</a> &#xa0; | &#xa0;
   <a href="#rocket-tecnologias">Tecnologias</a> &#xa0; | &#xa0;
-  <a href="#white_check_mark-pré-requisitos">Pré requisitos</a> &#xa0; | &#xa0;
-  <a href="#checkered_flag-começando">Começando</a> &#xa0; | &#xa0;
-  <a href="#memo-licença">Licença</a> &#xa0; | &#xa0;
-  <a href="https://github.com/jennyffermorais" target="_blank">Autor</a>
+  <a href="#white_check_mark-pré-requisitos">Documentação </a> &#xa0; | &#xa0;
+  <a href="#checkered_flag-começando">Como Executar</a> &#xa0; | &#xa0;
+  <a href="#equipe-43">Equipe</a> &#xa0; | &#xa0;
+  <a href="#memo-licença">Licença</a>
 </p>
 
 <br>
@@ -105,9 +105,9 @@ Os diagramas foram desenhados seguindo os padrões explicados na aula e utilizan
 2. Configure as variáveis de ambiente. Crie um arquivo `.env` com as seguintes variáveis:
    ```env
     MYSQL_ROOT_PASSWORD=mysql
-    MYSQL_PASSWORD=my_password
+    MYSQL_PASSWORD=jm_password
     MYSQL_DATABASE=tech_challenge_BD
-    MYSQL_USER=my_user
+    MYSQL_USER=jm_user
     MYSQL_HOST=mysql-db
     MYSQL_PORT=3306
     APP_PORT=3000
@@ -125,7 +125,7 @@ Os diagramas foram desenhados seguindo os padrões explicados na aula e utilizan
 
 A aplicação está configurada para utilizar MySQL conforme especificado no arquivo `docker-compose.yml`.
 
-## Equipe 43
+## 🧩 Equipe 43
 
 - [Felipe Carmo](https://github.com/carmof)
 - [Guilherme de Lima](https://github.com/usuario2)
