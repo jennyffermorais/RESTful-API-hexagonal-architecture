@@ -6,7 +6,7 @@
   <!-- <a href="https://restfullapihexagonalarchitecture.netlify.com">Demo</a> -->
 </div>
 
-<h1 align="center">[TEMP] Restfull Api Hexagonal Architecture</h1>
+<h1 align="center">Restfull Api Hexagonal Architecture</h1>
 
 <p align="center">
   <img alt="Principal linguagem do projeto" src="https://img.shields.io/github/languages/top/jennyffermorais/restfull-api-hexagonal-architecture?color=56BEB8">
@@ -47,45 +47,90 @@
 
 ## :dart: Sobre ##
 
-Sobre o seu projeto
+Projeto desenvolvido como requisito para aprovação na primeira fase da Pós-graduação em Software Architecture na instituição de ensino Fiap.
+
+Em síntese, este projeto foi desenvolvido para atender aos requisitos de um sistema de backend monolítico que gerencia pedidos e pagamentos, bem como a preparação e entrega de pedidos. O projeto utiliza a Arquitetura Hexagonal e segue os padrões de Domain-Driven Design (DDD), conforme apresentado nas aulas.
+
+
 
 ## :sparkles: Funcionalidades ##
 
-:heavy_check_mark: Funcionalidade 1;\
-:heavy_check_mark: Funcionalidade 2;\
-:heavy_check_mark: Funcionalidade 3;
+:heavy_check_mark: **Cadastro do Cliente:** APIs para criar, editar e remover clientes, além de identificar clientes via CPF;\
+:heavy_check_mark: **Gestão de Produtos:** APIs para criar, editar, remover produtos e buscar produtos por categoria;\
+:heavy_check_mark: **Fake Checkout:** API para enviar produtos escolhidos para a fila, simulando a finalização do pedido;\
+:heavy_check_mark: **Listagem de Pedidos:** API para listar todos os pedidos;\
+:heavy_check_mark: **Swagger:** Disponibilização do Swagger para consumo das APIs.
+
+
 
 ## :rocket: Tecnologias ##
 
 As seguintes ferramentas foram usadas na construção do projeto:
 
-- [Expo](https://expo.io/)
-- [Node.js](https://nodejs.org/en/)
-- [React](https://pt-br.reactjs.org/)
-- [React Native](https://reactnative.dev/)
-- [TypeScript](https://www.typescriptlang.org/)
 
-## :white_check_mark: Pré requisitos ##
+- **TypeScript** e **Node.js** para o desenvolvimento da aplicação.
+- **Express** como framework web.
+- **Arquitetura Hexagonal** para organização do código.
+- **Swagger** para documentação das APIs.
+- **Docker** e **Docker Compose** para contêinerização da aplicação.
+- **MySQL** como banco de dados.
 
-Antes de começar :checkered_flag:, você precisa ter o [Git](https://git-scm.com) e o [Node](https://nodejs.org/en/) instalados em sua maquina.
+## :white_check_mark: Documentação ##
 
-## :checkered_flag: Começando ##
+A documentação do sistema foi desenvolvida seguindo os princípios de DDD com Event Storming, incluindo todos os tipos de diagrama apresentados na aula 6 do módulo de DDD.
 
-```bash
-# Clone este repositório
-$ git clone https://github.com/jennyffermorais/restfull-api-hexagonal-architecture
 
-# Entre na pasta
-$ cd restfull-api-hexagonal-architecture
+### Fluxos Documentados
 
-# Instale as dependências
-$ yarn
+1. **Realização do Pedido e Pagamento**
+2. **Preparação e Entrega do Pedido**
 
-# Para iniciar o projeto
-$ yarn start
+Os diagramas foram desenhados seguindo os padrões explicados na aula e utilizando a linguagem ubíqua e, podem ser visualizados no nosso [MIRO](https://miro.com/app/board/uXjVKSMFSYU=/?share_link_id=1161200727).
 
-# O app vai inicializar em <http://localhost:3000>
-```
+
+## :checkered_flag: Como Executar ##
+
+### Pré-requisitos
+
+- **Docker** e **Docker Compose** instalados na máquina.
+
+### Passos para Execução
+
+1. Clone este repositório para sua máquina local.
+   ```bash
+   git clone https://github.com/jennyffermorais/RESTfull-API-hexagonal-architecture.git
+   cd RESTfull-API-hexagonal-architecture
+   ```
+
+2. Configure as variáveis de ambiente. Crie um arquivo `.env` com as seguintes variáveis:
+   ```env
+    MYSQL_ROOT_PASSWORD=mysql
+    MYSQL_PASSWORD=my_password
+    MYSQL_DATABASE=tech_challenge_BD
+    MYSQL_USER=my_user
+    MYSQL_HOST=mysql-db
+    MYSQL_PORT=3306
+    APP_PORT=3000
+   ```
+
+3. Compile e construa a aplicação usando Docker.
+   ```bash
+   docker-compose up --build
+   ```
+
+4. Acesse o Swagger para testar as APIs.
+   - O Swagger estará disponível em `http://localhost:3000/docs`.
+
+### Banco de Dados
+
+A aplicação está configurada para utilizar MySQL conforme especificado no arquivo `docker-compose.yml`.
+
+## Equipe 43
+
+- [Felipe Carmo](https://github.com/carmof)
+- [Guilherme de Lima](https://github.com/usuario2)
+- [Jennyffer de Morais](https://github.com/GuilhermeLimaSoares)
+- [Paulo Pupo](https://github.com/devpupo)
 
 ## :memo: Licença ##
 
