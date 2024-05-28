@@ -5,10 +5,12 @@ export class CreateOrderDto {
   items: Array<{
     productId: number;
     quantity: number;
+    unitPrice: number; 
   }>;
   totalAmount: number;
   status: PROCESS_STATUS;
 }
+
 
 export class UpdateOrderDto {
   customerId?: number;

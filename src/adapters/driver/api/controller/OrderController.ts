@@ -2,6 +2,7 @@ import { Body, Delete, Get, Path, Post, Put, Query, Res, Route, Tags, TsoaRespon
 import { IOrderService } from '../../../../core/applications/ports/IOrderService';
 import { PROCESS_STATUS } from '../../../../core/domain/Order';
 import { CreateOrderDto, UpdateOrderDto } from './dto/OrderDto';
+import { toOrder } from '../../../../core/mappers/order.mapper';
 
 @Route('orders')
 @Tags('Order')
@@ -19,8 +20,8 @@ export class OrderController {
     @Res() internalErrorResponse: TsoaResponse<500, { message: string }>
   ): Promise<any> {
     try {
-      const order = await this.orderService.create(createOrderDto);
-      return order;
+      const { order, products } = toOrder(createOrderDto)
+      return await this.orderService.create(order)
     } catch (error) {
       return internalErrorResponse(500, { message: 'Internal server error' });
     }

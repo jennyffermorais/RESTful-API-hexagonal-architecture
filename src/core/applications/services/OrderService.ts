@@ -1,17 +1,29 @@
 import { Between } from 'typeorm';
 import { IOrder, PROCESS_STATUS } from '../../domain/Order';
 import { IRepository } from '../ports/IRepository';
+import { IOrderProduct } from '../../domain/OrderProduct';
 
 export class OrderService {
   private orderRepository: IRepository<IOrder>;
+  private orderProductRepository: IRepository<IOrderProduct>;
 
-  constructor(orderRepository: IRepository<IOrder>) {
+  constructor(orderRepository: IRepository<IOrder>,
+    orderProductRepository: IRepository<IOrderProduct>) {
     this.orderRepository = orderRepository;
+    this.orderProductRepository = orderProductRepository;
   }
 
-  public async create(data: Partial<IOrder>): Promise<IOrder> {
+  public async create(data: Partial<IOrder>, productsData: Partial<IOrderProduct>[]): Promise<IOrder> {
     const order = await this.orderRepository.create(data);
-    return this.orderRepository.save(order);
+
+    const orderProducts = productsData.map(product => ({
+      ...product,
+      orderId: order.id,
+    }));
+
+    await this.orderProductRepository.createMany(orderProducts);
+
+    return order;
   }
 
   public async update(id: number, data: Partial<IOrder>): Promise<IOrder | null> {
