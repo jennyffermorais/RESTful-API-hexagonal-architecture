@@ -57,7 +57,6 @@ router.get('/customers/:id', async (req, res) => {
 
 router.get('/customers', async (req, res) => {
   try {
-    // get documentNum from query params
     const documentNum = req.query.documentNum as string;
 
     const result = await customerController.getAll(documentNum, res.status.bind(res, 500));

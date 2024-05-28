@@ -1,7 +1,7 @@
-import { Controller, Post, Route, Body, Get, Path, Put, Delete, Query, Tags } from 'tsoa';
+import { Body, Controller, Delete, Get, Path, Post, Put, Query, Route, Tags } from 'tsoa';
 import { IProductService } from '../../../../core/applications/ports/services/IProductService';
-import { CreateProductDto, UpdateProductDto } from './dto/ProductDto';
 import { IProduct } from '../../../../core/domain/Product';
+import { CreateProductDto, UpdateProductDto } from './dto/ProductDto';
 
 @Route('products')
 @Tags('Products')
