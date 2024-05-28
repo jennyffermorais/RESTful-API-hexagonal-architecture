@@ -1,6 +1,7 @@
 import express from 'express';
 import { IOrderService } from '../../../../core/applications/ports/services/IOrderService';
 import { OrderService } from '../../../../core/applications/services/OrderService';
+import { PROCESS_STATUS } from '../../../../core/domain/Order';
 import { AppDataSource } from '../../../../data-source';
 import { Order } from '../../../driven/repository/Order';
 import { OrderProduct } from '../../../driven/repository/OrderProduct';
@@ -49,6 +50,7 @@ router.get('/orders/:id', async (req, res) => {
   try {
     const result = await orderController.getOrderById(
       req.params.id,
+
       res.status.bind(res, 404),
       res.status.bind(res, 500)
     );
@@ -60,7 +62,8 @@ router.get('/orders/:id', async (req, res) => {
 
 router.get('/orders', async (req, res) => {
   try {
-    const result = await orderController.getAllOrders(res.status.bind(res, 500));
+    const processStage = req.query.processStage as PROCESS_STATUS;
+    const result = await orderController.getAllOrders(processStage, res.status.bind(res, 500));
     res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });

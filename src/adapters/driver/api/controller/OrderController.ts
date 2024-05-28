@@ -80,9 +80,13 @@ export class OrderController {
   }
 
   @Get('/')
-  public async getAllOrders(@Res() internalErrorResponse: TsoaResponse<500, { message: string }>): Promise<any> {
+  public async getAllOrders(
+    @Query() processStage: PROCESS_STATUS,
+    @Res() internalErrorResponse: TsoaResponse<500, { message: string }>
+  ): Promise<any> {
     try {
-      const orders = await this.orderService.getAll();
+      // get processStage from query params
+      const orders = await this.orderService.getAll({ processStage });
       return orders;
     } catch (error) {
       return internalErrorResponse(500, { message: 'Internal server error' });

@@ -49,9 +49,10 @@ export class OrderService implements IOrderService {
     return order || null;
   }
 
-  public async getAll(): Promise<IOrder[]> {
-    return this.orderRepository.find();
-  }
+  getAll: IOrderService['getAll'] = async (payload = {}) => {
+    const { processStage } = payload;
+    return this.orderRepository.find({ where: { processStage } });
+  };
 
   public isValidStatus = (status: any): status is PROCESS_STATUS => {
     return Object.values(PROCESS_STATUS).includes(status);

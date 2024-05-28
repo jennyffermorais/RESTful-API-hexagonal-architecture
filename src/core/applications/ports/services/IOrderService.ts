@@ -6,7 +6,7 @@ export interface IOrderService {
   update(id: number, data: Partial<IOrder>): Promise<IOrder | null>;
   delete(id: number): Promise<boolean>;
   getById(id: number): Promise<IOrder | null>;
-  getAll(): Promise<IOrder[]>;
+  getAll(payload?: { processStage?: PROCESS_STATUS }): Promise<IOrder[]>;
 
   create(data: Partial<IOrder>, productsData: Partial<IOrderProduct>[]): Promise<IOrder>;
   getByStatus(status: PROCESS_STATUS): Promise<IOrder[]>;
