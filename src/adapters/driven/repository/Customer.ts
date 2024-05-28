@@ -1,9 +1,9 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn, Relation } from 'typeorm';
-import { IClient } from '../../../core/domain/Client';
+import { ICustomer } from '../../../core/domain/Customer';
 import { Order } from './Order';
 
 @Entity()
-export class Client implements IClient {
+export class Customer implements ICustomer {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -19,6 +19,6 @@ export class Client implements IClient {
   @Column()
   email: string;
 
-  @OneToMany(() => Order, (Order) => Order.client)
+  @OneToMany(() => Order, (Order) => Order.customer)
   orders: Relation<Order>;
 }

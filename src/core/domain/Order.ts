@@ -14,7 +14,7 @@ export enum PAYMENT_STATUS {
 
 export interface IOrder {
   id: number;
-  clientId: number;
+  customerId: number;
   processStage: PROCESS_STATUS;
   totalAmount: number;
   paymentStatus: PAYMENT_STATUS;

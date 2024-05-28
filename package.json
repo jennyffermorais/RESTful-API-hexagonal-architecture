@@ -3,6 +3,7 @@
   "version": "1",
   "description": "",
   "main": "index.js",
+  "license": "UNLICENSED",
   "scripts": {
     "start": "node dist/index",
     "predev": "npm run swagger",
