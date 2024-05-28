@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { OrderService } from '../../../../core/applications/services/OrderService';
 
-import { IPaymentService } from '../../../../core/applications/ports/IPaymentService';
+import { IPaymentService } from '../../../../core/applications/ports/services/IPaymentService';
 import { PAYMENT_STATUS } from '../../../../core/domain/Order';
 import { MarkOrderAsPaidRequest, OrderPaymentRequest } from './dto/PaymentDto';
 

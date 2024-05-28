@@ -1,4 +1,4 @@
-import { IOrder, PROCESS_STATUS } from '../../domain/Order';
+import { IOrder, PROCESS_STATUS } from '../../../domain/Order';
 import { IService } from './IService';
 
 export interface IOrderService extends IService<IOrder> {

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { CreateClientDto, UpdateClientDto } from './dto/ClientDto';
-import { IClientService } from '../../../../core/applications/ports/IClientService';
+import { IClientService } from '../../../../core/applications/ports/services/IClientService';
 
 export class ClientController {
 

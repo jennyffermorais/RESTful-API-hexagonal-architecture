@@ -1,5 +1,5 @@
 import { Body, Delete, Get, Path, Post, Put, Query, Res, Route, Tags, TsoaResponse } from 'tsoa';
-import { IOrderService } from '../../../../core/applications/ports/IOrderService';
+import { IOrderService } from '../../../../core/applications/ports/services/IOrderService';
 import { PROCESS_STATUS } from '../../../../core/domain/Order';
 import { CreateOrderDto, UpdateOrderDto } from './dto/OrderDto';
 

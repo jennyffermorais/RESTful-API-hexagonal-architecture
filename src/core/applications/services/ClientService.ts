@@ -1,5 +1,5 @@
 import { IClient } from '../../domain/Client';
-import { IRepository } from '../ports/IRepository';
+import { IRepository } from '../ports/repositories/IRepository';
 
 export class ClientService {
   private clientRepository: IRepository<IClient>;

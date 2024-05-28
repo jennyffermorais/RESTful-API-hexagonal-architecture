@@ -1,9 +1,8 @@
 import { Request, Response } from 'express';
+import { IProductService } from '../../../../core/applications/ports/services/IProductService';
 import { CreateProductDto, UpdateProductDto } from './dto/ProductDto';
-import { IProductService } from '../../../../core/applications/ports/IProductService';
 
 export class ProductController {
-
   private productService: IProductService;
 
   constructor(productService: IProductService) {
@@ -44,7 +43,8 @@ export class ProductController {
   }
 
   async getAllProducts(req: Request, res: Response): Promise<Response> {
-    const products = await this.productService.getAll();
+    const category = req.query.category as string;
+    const products = await this.productService.getAll({ category });
     return res.status(200).json(products);
   }
 }
