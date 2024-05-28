@@ -13,6 +13,13 @@ const orderController = new OrderController(orderService);
 const router = express.Router();
 router.post('/orders', async (req, res) => {
   try {
+    // {
+    //   clientId: number;
+    //   totalAmount: number;
+    //   products: [{productId, quantity}, ...]
+    //   createdAt: Date;
+    //   updatedAt: Date;
+    // }
     const result = await orderController.create(req.body, res.status.bind(res, 404), res.status.bind(res, 500));
     res.status(201).json(result);
   } catch (error) {
