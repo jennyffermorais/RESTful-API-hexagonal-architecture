@@ -4,7 +4,6 @@ import express from 'express';
 import * as logger from 'morgan';
 import 'reflect-metadata';
 import swaggerUi from 'swagger-ui-express';
-import categoryRoute from './adapters/driver/api/routers/categoryRoute';
 import clientRoute from './adapters/driver/api/routers/clientRoute';
 import orderRoute from './adapters/driver/api/routers/orderRoute';
 import { paymentRoute } from './adapters/driver/api/routers/paymentRoute';
@@ -19,7 +18,7 @@ AppDataSource.initialize()
     app.use(cors.default());
     app.use(bodyParser.json());
     app.use(logger.default('dev'));
-    app.use(express.json(), categoryRoute, clientRoute, productRoute, paymentRoute, orderRoute);
+    app.use(express.json(), clientRoute, productRoute, paymentRoute, orderRoute);
 
     app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

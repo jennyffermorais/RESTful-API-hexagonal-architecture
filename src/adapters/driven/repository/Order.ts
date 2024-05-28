@@ -10,7 +10,7 @@ export class Order extends BaseEntity implements IOrder {
   id: number;
 
   @OneToMany(() => OrderProduct, (OrderProduct) => OrderProduct.order)
-  products: Relation<OrderProduct[]>;
+  orderProducts: Relation<OrderProduct[]>;
 
   @Column({ nullable: true })
   clientId: number;
@@ -25,7 +25,7 @@ export class Order extends BaseEntity implements IOrder {
   })
   processStage: PROCESS_STATUS;
 
-  @Column('decimal', { precision: 10, scale: 2, nullable: true })
+  @Column({ type: 'float', nullable: true })
   totalAmount: number;
 
   @Column({

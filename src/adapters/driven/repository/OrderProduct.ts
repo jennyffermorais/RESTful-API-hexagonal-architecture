@@ -1,7 +1,7 @@
-import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, Relation } from 'typeorm';
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn, Relation } from 'typeorm';
 import { IOrderProduct } from '../../../core/domain/OrderProduct';
-import { Category } from './Category';
 import { Order } from './Order';
+import { Product } from './Product';
 
 @Entity()
 export class OrderProduct extends BaseEntity implements IOrderProduct {
@@ -10,18 +10,17 @@ export class OrderProduct extends BaseEntity implements IOrderProduct {
 
   @Column()
   orderId: number;
-  @ManyToOne(() => Order, (Order) => Order.products)
+  @ManyToOne(() => Order, (Order) => Order.orderProducts)
   order: Relation<Order>;
 
   @Column()
-  categoryId: number;
-  @OneToOne(() => Category)
-  @JoinColumn()
-  category: Relation<Category>;
+  productId: number;
+  @ManyToOne(() => Product, (Product) => Product.OrderProducts)
+  product: Relation<Product>;
 
   @Column('int')
   quantity: number;
 
-  @Column('decimal', { precision: 10, scale: 2 })
+  @Column({ type: 'float' })
   unitPrice: number;
 }
