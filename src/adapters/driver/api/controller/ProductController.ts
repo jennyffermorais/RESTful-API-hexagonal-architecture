@@ -1,50 +1,61 @@
-import { Request, Response } from 'express';
+import { Controller, Post, Route, Body, Get, Path, Put, Delete, Query, Tags } from 'tsoa';
 import { IProductService } from '../../../../core/applications/ports/services/IProductService';
 import { CreateProductDto, UpdateProductDto } from './dto/ProductDto';
+import { IProduct } from '../../../../core/domain/Product';
 
-export class ProductController {
+@Route('products')
+@Tags('Products')
+export class ProductController extends Controller {
   private productService: IProductService;
 
   constructor(productService: IProductService) {
+    super();
     this.productService = productService;
   }
 
-  async createProduct(req: Request, res: Response): Promise<Response> {
-    const createProductDto: CreateProductDto = req.body;
-    const product = await this.productService.create(createProductDto);
-    return res.status(201).json(product);
+  /**
+   * Create a new product
+   * @param createProductDto The product data to create
+   */
+  @Post()
+  public async create(@Body() createProductDto: CreateProductDto): Promise<IProduct> {
+    return this.productService.create(createProductDto);
   }
 
-  async updateProduct(req: Request, res: Response): Promise<Response> {
-    const id = parseInt(req.params.id, 10);
-    const updateProductDto: UpdateProductDto = req.body;
-    const product = await this.productService.update(id, updateProductDto);
-    if (product) {
-      return res.json(product);
-    } else {
-      return res.status(404).json({ message: 'Product not found' });
-    }
+  /**
+   * Update an existing product by ID
+   * @param id The ID of the product to update
+   * @param updateProductDto The product data to update
+   */
+  @Put('{id}')
+  public async update(@Path() id: number, @Body() updateProductDto: UpdateProductDto): Promise<IProduct | null> {
+    return this.productService.update(id, updateProductDto);
   }
 
-  async deleteProduct(req: Request, res: Response): Promise<Response> {
-    const id = parseInt(req.params.id, 10);
+  /**
+   * Delete a product by ID
+   * @param id The ID of the product to delete
+   */
+  @Delete('{id}')
+  public async delete(@Path() id: number): Promise<void> {
     await this.productService.delete(id);
-    return res.status(204).send();
   }
 
-  async getProductById(req: Request, res: Response): Promise<Response> {
-    const id = parseInt(req.params.id, 10);
-    const product = await this.productService.getById(id);
-    if (product) {
-      return res.json(product);
-    } else {
-      return res.status(404).json({ message: 'Product not found' });
-    }
+  /**
+   * Get a product by ID
+   * @param id The ID of the product to retrieve
+   */
+  @Get('{id}')
+  public async getById(@Path() id: number): Promise<IProduct | null> {
+    return this.productService.getById(id);
   }
 
-  async getAllProducts(req: Request, res: Response): Promise<Response> {
-    const category = req.query.category as string;
-    const products = await this.productService.getAll({ category });
-    return res.status(200).json(products);
+  /**
+   * Get all products, optionally filtered by category
+   * @param category The category to filter products by
+   */
+  @Get()
+  public async getAll(@Query() category?: string): Promise<IProduct[]> {
+    return this.productService.getAll({ category });
   }
 }
