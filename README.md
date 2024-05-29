@@ -127,8 +127,8 @@ A aplicação está configurada para utilizar MySQL conforme especificado no arq
 ## :memo: Equipe 43
 
 - [Felipe Carmo](https://github.com/carmof)
-- [Guilherme de Lima](https://github.com/usuario2)
-- [Jennyffer de Morais](https://github.com/GuilhermeLimaSoares)
+- [Guilherme de Lima](https://github.com/GuilhermeLimaSoares)
+- [Jennyffer de Morais](https://github.com/jennyffermorais)
 - [Paulo Pupo](https://github.com/devpupo)
 
 &#xa0;
