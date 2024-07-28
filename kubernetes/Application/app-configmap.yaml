@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-configmap
+type: Opaque
+data:
+  MYSQL_PASSWORD: jm_password
+  MYSQL_DATABASE: tech_challenge_BD
+  MYSQL_USER: jm_user
+  MYSQL_HOST: mysql-service:3306
