@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: app-node-18
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: app-node-18
@@ -20,3 +20,20 @@ spec:
         envFrom:
         - configMapRef:
           name: app-configmap
+        livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            periodSeconds: 10
+            failureThreshold: 3
+            initialDelaySeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            periodSeconds: 10
+            failureThreshold: 5
+            initialDelaySeconds: 3
+          resources:
+            requests:
+              cpu: 10m
