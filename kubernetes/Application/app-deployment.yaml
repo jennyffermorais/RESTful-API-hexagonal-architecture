@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: app-node-18
-        image: <seu-repositorio>/app-node-18:latest
+        image: tech-challenge-app:latest
         ports:
         - containerPort: 3000
         envFrom:
