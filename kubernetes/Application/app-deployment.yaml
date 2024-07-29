@@ -19,7 +19,7 @@ spec:
         - containerPort: 3000
         envFrom:
         - configMapRef:
-          name: app-configmap
+            name: app-configmap
         livenessProbe:
             httpGet:
               path: /
@@ -27,13 +27,17 @@ spec:
             periodSeconds: 10
             failureThreshold: 3
             initialDelaySeconds: 20
-          readinessProbe:
+        readinessProbe:
             httpGet:
               path: /
               port: 3000
             periodSeconds: 10
             failureThreshold: 5
             initialDelaySeconds: 3
-          resources:
+        resources:
             requests:
-              cpu: 10m
+              memory: "350Mi"
+              cpu: "400m"
+            limits:
+              memory: "450Mi"
+              cpu: "600m"
