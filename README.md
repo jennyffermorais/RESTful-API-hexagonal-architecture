@@ -126,7 +126,7 @@ A aplicação está configurada para utilizar MySQL conforme especificado no arq
 
 #### Arquitetura Kubernetes
 
-![arquitetura-kubernetes](image.png)
+![arquitetura-kubernetes](image-1.png)
 
 ## :memo: Equipe 43
 
