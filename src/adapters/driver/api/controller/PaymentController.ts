@@ -3,22 +3,33 @@ import { IPaymentService } from '../../../../core/applications/ports/services/IP
 import { OrderService } from '../../../../core/applications/services/OrderService';
 import { PAYMENT_STATUS } from '../../../../core/domain/Order';
 import { MarkOrderAsPaidRequest, OrderPaymentRequest } from './dto/PaymentDto';
+import { PaymentGatewayACL } from '../../../gateway/Payment';
+import { PaymentGatewayACLUseCase } from '../../../../core/usecases/Payment';
+import { OrderEntity } from '../../../../core/entities/Order';
+import { IRepository } from '../../../../core/applications/ports/repositories/IRepository';
+import { OrderGateway } from '../../../gateway/Order';
+import { OrderUseCase } from '../../../../core/usecases/Order';
+import { OrderProductEntity } from '../../../../core/entities/OrderProduct';
 
 @Route('payments')
 @Tags('Payments')
 export class PaymentController {
+  private orderDataSource: IRepository<OrderEntity>;
+  private orderProductDataSource: IRepository<OrderProductEntity>;
   constructor(
-    private readonly paymentGatewayService: IPaymentService,
-    private readonly orderService: OrderService
   ) {}
 
   @Post('create')
   public async createOrderPayment(
     @Body() requestBody: OrderPaymentRequest
   ): Promise<{ paymentUrl: string } | { message: string }> {
+    const orderGateway = new OrderGateway(this.orderDataSource, this.orderProductDataSource);
+    const orderUseCase = new OrderUseCase(orderGateway);
+    const paymentUseCase = new PaymentGatewayACLUseCase();
+
     const { orderId } = requestBody;
 
-    const order = await this.orderService.getById(orderId);
+    const order = await orderUseCase.getById(orderId);
     if (!order) {
       return { message: 'Order not found' };
     }
@@ -32,15 +43,17 @@ export class PaymentController {
       return { message: 'Order is not in a valid payment status to proceed' };
     }
 
-    const paymentUrl = await this.paymentGatewayService.requestPaymentUrl({ paymentValue: order.totalAmount });
+    const paymentUrl = await paymentUseCase.requestPaymentUrl({ paymentValue: order.totalAmount });
 
     return { paymentUrl };
   }
 
   @Post('mark-as-paid')
   public async markOrderAsPaid(@Body() requestBody: MarkOrderAsPaidRequest): Promise<{ message: string }> {
+    const orderGateway = new OrderGateway(this.orderDataSource, this.orderProductDataSource);
+    const orderUseCase = new OrderUseCase(orderGateway);
     const { orderId, status: paymentResponseStatus } = requestBody;
-    const order = await this.orderService.getById(orderId);
+    const order = await orderUseCase.getById(orderId);
 
     if (!order) {
       return { message: 'Order not found' };
@@ -56,9 +69,9 @@ export class PaymentController {
     }
 
     if (paymentResponseStatus !== 'PAID') {
-      await this.orderService.update(orderId, { paymentStatus: PAYMENT_STATUS.FAILED });
+      await orderUseCase.update(orderId, { paymentStatus: PAYMENT_STATUS.FAILED });
     } else {
-      await this.orderService.update(orderId, { paymentStatus: PAYMENT_STATUS.PAID });
+      await orderUseCase.update(orderId, { paymentStatus: PAYMENT_STATUS.PAID });
     }
 
     return { message: 'Order paid successfully' };

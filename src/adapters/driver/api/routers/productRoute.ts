@@ -13,7 +13,7 @@ const router = Router();
 
 router.post('/products', async (req, res) => {
   try {
-    const result = await productController.create(req.body);
+    const result = await productController.create(req.body,res.status.bind(res, 500));
     res.status(201).json(result);
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
@@ -22,7 +22,7 @@ router.post('/products', async (req, res) => {
 
 router.put('/products/:id', async (req, res) => {
   try {
-    const result = await productController.update(+req.params.id, req.body);
+    const result = await productController.update(+req.params.id, req.body, res.status.bind(res, 500));
     res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
@@ -31,7 +31,7 @@ router.put('/products/:id', async (req, res) => {
 
 router.delete('/products/:id', async (req, res) => {
   try {
-    await productController.delete(+req.params.id);
+    await productController.delete(+req.params.id, res.status.bind(res, 500));
     res.status(204).send();
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
@@ -40,7 +40,7 @@ router.delete('/products/:id', async (req, res) => {
 
 router.get('/products/:id', async (req, res) => {
   try {
-    const result = await productController.getById(+req.params.id);
+    const result = await productController.getById(+req.params.id, res.status.bind(res, 500));
     res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
@@ -50,7 +50,7 @@ router.get('/products/:id', async (req, res) => {
 router.get('/products', async (req, res) => {
   try {
     const category = req.query.category as string;
-    const result = await productController.getAll(category);
+    const result = await productController.getAll(category, res.status.bind(res, 500));
     res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
