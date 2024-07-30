@@ -2,7 +2,10 @@ import { OrderGateway } from '../../adapters/gateway/Order';
 import { IOrderService } from '../../core/applications/ports/services/IOrderService';
 import { PROCESS_STATUS } from '../../core/domain/Order';
 import { OrderEntity } from '../../core/entities/Order';
+import { CreateOrderEntity } from '../../core/entities/CreateOrder';
 import { OrderProductEntity } from '../entities/OrderProduct';
+import { CreateOrderProductEntity } from '../entities/CreateOrderProduct';
+import { UpdateOrderEntity } from '../entities/UpdateOrder';
 
 export class OrderUseCase {
   private orderGateway: OrderGateway;
@@ -11,27 +14,29 @@ export class OrderUseCase {
     this.orderGateway = orderGateway;
   }
 
-  public async create(orderEntity: OrderEntity, orderProductEntity: OrderProductEntity): Promise<OrderEntity> {
+  public async create(orderEntity: CreateOrderEntity, orderProductEntity: Array<CreateOrderProductEntity>): Promise<OrderEntity> {
     try {
-      const newOrderEntity = new OrderEntity(
-        orderEntity.id,
-        orderEntity.customerId,
-        orderEntity.processStage,
-        orderEntity.totalAmount,
-        orderEntity.paymentStatus,
-        orderEntity.createdAt,
-        orderEntity.updatedAt
+      const newOrderEntity = new CreateOrderEntity(
+        orderEntity.id!,
+        orderEntity.customerId!,
+        orderEntity.processStage!,
+        orderEntity.totalAmount!,
+        orderEntity.paymentStatus!,
+        orderEntity.createdAt!,
+        orderEntity.updatedAt!
       );
 
-      const newOrderProductEntity = new Array(
-        new OrderProductEntity(
-          orderProductEntity.id,
-          orderProductEntity.orderId,
-          orderProductEntity.productId,
-          orderProductEntity.quantity,
-          orderProductEntity.unitPrice
-        )
-      );
+      // const newOrderProductEntity = new Array(
+      //   new CreateOrderProductEntity(
+      //     orderProductEntity.id!,
+      //     orderProductEntity.orderId!,
+      //     orderProductEntity.productId!,
+      //     orderProductEntity.quantity!,
+      //     orderProductEntity.unitPrice!
+      //   )
+      // );
+
+      const newOrderProductEntity = orderProductEntity;
 
       const order = await this.orderGateway.create(newOrderEntity, newOrderProductEntity);
       return order;
@@ -40,16 +45,16 @@ export class OrderUseCase {
     }
   }
 
-  public async update(id: number, data: OrderEntity): Promise<OrderEntity | null> {
+  public async update(id: number, data: UpdateOrderEntity): Promise<OrderEntity | null> {
     try {
       const newOrderEntity = new OrderEntity(
-        id,
-        data.customerId,
-        data.processStage,
-        data.totalAmount,
-        data.paymentStatus,
-        data.createdAt,
-        data.updatedAt
+        id!,
+        data.customerId!,
+        data.processStage!,
+        data.totalAmount!,
+        data.paymentStatus!,
+        data.createdAt!,
+        data.updatedAt!
       );
 
       const order = this.orderGateway.update(id, newOrderEntity);
@@ -84,6 +89,10 @@ export class OrderUseCase {
     } catch (e) {
       throw e;
     }
+  };
+
+  public isValidStatus = (status: any): status is PROCESS_STATUS => {
+    return Object.values(PROCESS_STATUS).includes(status);
   };
 
   public async getByStatus(status: PROCESS_STATUS): Promise<OrderEntity[]> {

@@ -45,13 +45,13 @@ export class CustomerGateway {
     return customer || null;
   }
 
-  getAll: ICustomerService['getAll'] = async (filters = {}) => {
-    const { documentNum } = filters;
-    return this.customerRepository.find({ where: { documentNum } });
-  };
-
-//   async getAll(filters: { documentNum?: string }): Promise<CustomerEntity[]> {
+//   getAll: ICustomerService['getAll'] = async (filters = {}) => {
 //     const { documentNum } = filters;
 //     return this.customerRepository.find({ where: { documentNum } });
 //   };
+
+  async getAll(filters: { documentNum?: string }): Promise<CustomerEntity[]> {
+    const { documentNum } = filters;
+    return this.customerRepository.find({ where: { documentNum } });
+  };
 }

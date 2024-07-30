@@ -5,6 +5,8 @@ import { IRepository } from '../../core/applications/ports/repositories/IReposit
 import { IOrderService } from '../../core/applications/ports/services/IOrderService';
 import { OrderEntity } from '../../core/entities/Order';
 import { OrderProductEntity } from '../../core/entities/OrderProduct';
+import { CreateOrderProductEntity } from '../../core/entities/CreateOrderProduct';
+import { CreateOrderEntity } from '../../core/entities/CreateOrder';
 
 export class OrderGateway implements IOrderService {
   private orderRepository: IRepository<OrderEntity>;
@@ -15,7 +17,7 @@ export class OrderGateway implements IOrderService {
     this.orderProductRepository = orderProductRepository;
   }
 
-  public async create(orderData: Partial<OrderEntity>, productsData: Partial<OrderProductEntity>[]): Promise<OrderEntity> {
+  public async create(orderData: Partial<CreateOrderEntity>, productsData: Partial<CreateOrderProductEntity>[]): Promise<OrderEntity> {
     const { id, ...restOrderData } = orderData;
     const order = await this.orderRepository.create(restOrderData);
     const orderProducts = productsData.map((product) => ({
