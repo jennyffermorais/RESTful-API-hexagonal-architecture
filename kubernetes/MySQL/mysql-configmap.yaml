@@ -4,5 +4,6 @@ metadata:
   name: mysql-configmap
 data:
   MYSQL_ROOT_PASSWORD: mysql
+  MYSQL_USER: jm_user
   MYSQL_PASSWORD: jm_password
   MYSQL_DATABASE: tech_challenge_BD

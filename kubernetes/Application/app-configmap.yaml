@@ -6,4 +6,5 @@ data:
   MYSQL_PASSWORD: jm_password
   MYSQL_DATABASE: tech_challenge_BD
   MYSQL_USER: jm_user
-  MYSQL_HOST: mysql-service:3306
+  MYSQL_HOST: mysql-db-service
+  MYSQL_PORT: "3306"
