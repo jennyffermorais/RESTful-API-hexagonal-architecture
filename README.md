@@ -124,6 +124,10 @@ Os diagramas foram desenhados seguindo os padrões explicados na aula e utilizan
 
 A aplicação está configurada para utilizar MySQL conforme especificado no arquivo `docker-compose.yml`.
 
+#### Arquitetura Kubernetes
+
+![arquitetura-kubernetes](image-1.png)
+
 ## :memo: Equipe 43
 
 - [Felipe Carmo](https://github.com/carmof)
