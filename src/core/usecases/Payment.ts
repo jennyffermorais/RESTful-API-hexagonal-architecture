@@ -1,5 +1,5 @@
-export class PaymentGatewayACL {
-  private paymentGateway: PaymentGatewayACL;
+export class PaymentGatewayACLUseCase {
+  private paymentGateway: PaymentGatewayACLUseCase;
   async requestPaymentUrl(payload: { paymentValue: number }): Promise<string> {
     try {
       const payment = await this.paymentGateway.requestPaymentUrl(payload);
