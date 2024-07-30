@@ -22,14 +22,14 @@ spec:
             name: app-configmap
         livenessProbe:
             httpGet:
-              path: /
+              path: /docs
               port: 3000
             periodSeconds: 10
             failureThreshold: 3
             initialDelaySeconds: 20
         readinessProbe:
             httpGet:
-              path: /
+              path: /docs
               port: 3000
             periodSeconds: 10
             failureThreshold: 5
