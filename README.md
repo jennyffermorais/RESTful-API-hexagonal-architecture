@@ -129,7 +129,7 @@ A aplicação está configurada para utilizar MySQL conforme especificado no arq
 ![arquitetura-kubernetes](image-1.png)
 
 
-#### Executando em Kubernetes
+## Executando em Kubernetes
 
 Para simular um ambiente Kubernetes, siga os passos abaixo:
 
