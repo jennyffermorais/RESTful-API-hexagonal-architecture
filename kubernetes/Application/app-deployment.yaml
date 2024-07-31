@@ -36,8 +36,4 @@ spec:
             initialDelaySeconds: 10
         resources:
             requests:
-              memory: "350Mi"
-              cpu: "400m"
-            limits:
-              memory: "450Mi"
-              cpu: "600m"
+              cpu: 10m
