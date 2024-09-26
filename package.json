@@ -19,7 +19,8 @@
     "type:check": "yarn swagger && yarn run tsc",
     "docker:up": "rimraf dist && docker-compose up -d",
     "docker:down": "docker-compose down",
-    "test": "jest"
+    "test": "jest",
+    "coverage": "jest --coverage"
   },
   "dependencies": {
     "@types/joi": "^17.2.3",
