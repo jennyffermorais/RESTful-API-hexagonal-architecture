@@ -1,0 +1,170 @@
+name: pipeline
+
+on:
+  push:
+
+jobs:
+  unit-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+      
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run unit tests
+      run: npm test
+
+    - name: Generate test coverage
+      run: npm run coverage
+
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v4.4.0
+      with:
+        name: coverage-report
+        path: coverage/
+
+  code-analysis:
+    runs-on: ubuntu-latest
+    needs: unit-test
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run ESLint for code analysis
+      run: npm run lint
+
+    - name: Run SonarCloud analysis
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      run: npm run sonar
+
+  build:
+    runs-on: ubuntu-latest
+    needs: code-analysis
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build application
+      run: npm run build
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4.4.0
+      with:
+        name: build-artifact
+        path: dist/
+
+  deploy-STG:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: stg
+
+    if: github.ref == 'refs/heads/develop'
+    steps:
+      - name: Deploy 
+        shell: bash
+        run: |
+          echo "Deploy STG"
+
+  Smoketest:
+    runs-on: ubuntu-latest
+    needs: deploy-STG
+
+    if: github.ref == 'refs/heads/develop'
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run smoketests
+        shell: bash
+        run: |
+          sh 'src/scripts/smokeTest.sh'
+
+  testeIntegrados:
+    runs-on: ubuntu-latest
+    needs: Smoketest
+    
+    if: github.ref == 'refs/heads/develop'
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy 
+        shell: bash
+        run: |
+          sh 'src/scripts/integrationTest.sh'
+
+  deploy-Pre:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/release'
+    environment:
+      name: pre
+    needs: build
+    steps:
+      - name: Deploy 
+        shell: bash
+        run: |
+          echo "Deploy PRE"
+          
+  SmoketestPre:
+    runs-on: ubuntu-latest
+    needs: deploy-Pre
+    
+    if: github.ref == 'refs/heads/release'
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy 
+        shell: bash
+        run: |
+          sh 'src/scripts/smokeTest.sh'          
+          
+  testeFuncionais:
+    runs-on: ubuntu-latest
+    needs: SmoketestPre
+    
+    if: github.ref == 'refs/heads/release'
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy 
+        shell: bash
+        run: |
+          sh 'src/scripts/functionalTests.sh' 
+
+  deploy-Prod:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: prod
+    needs: build
+    steps:
+      - name: Deploy 
+        shell: bash
+        run: |
+          echo "Deploy PROD"
