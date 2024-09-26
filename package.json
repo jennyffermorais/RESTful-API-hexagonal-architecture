@@ -20,7 +20,8 @@
     "docker:up": "rimraf dist && docker-compose up -d",
     "docker:down": "docker-compose down",
     "test": "jest",
-    "coverage": "jest --coverage"
+    "coverage": "jest --coverage",
+    "sonar": "sonar-scanner"
   },
   "dependencies": {
     "@types/joi": "^17.2.3",
@@ -52,6 +53,7 @@
     "prettier": "~3.2.5",
     "prettier-plugin-organize-imports": "~3.2.4",
     "rimraf": "~5.0.7",
+    "sonar-scanner": "^3.1.0",
     "ts-jest": "^29.2.5",
     "tsconfig-paths": "^4.2.0",
     "tsoa": "^6.2.1",
