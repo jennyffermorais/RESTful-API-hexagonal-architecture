@@ -20,8 +20,7 @@
     "docker:up": "rimraf dist && docker-compose up -d",
     "docker:down": "docker-compose down",
     "test": "jest",
-    "coverage": "jest --coverage",
-    "lint": "eslint ."
+    "coverage": "jest --coverage"
   },
   "dependencies": {
     "@types/joi": "^17.2.3",
@@ -48,7 +47,6 @@
     "@types/morgan": "^1.9.9",
     "@types/node": "^20.12.11",
     "@types/swagger-ui-express": "^4.1.6",
-    "eslint": "^9.11.1",
     "globals": "^15.9.0",
     "jest": "^29.7.0",
     "prettier": "~3.2.5",
