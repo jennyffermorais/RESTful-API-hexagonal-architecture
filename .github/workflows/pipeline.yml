@@ -59,8 +59,8 @@ jobs:
 
     - name: Run SonarCloud analysis
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} #automaticamente
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} #manualmente
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} #gerado automaticamente pelo github
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} #gerado manualmente no sonarCloud
       run: npm run sonar
 
   build:
