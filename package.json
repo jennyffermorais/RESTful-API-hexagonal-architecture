@@ -21,7 +21,7 @@
     "docker:down": "docker-compose down",
     "test": "jest",
     "coverage": "jest --coverage",
-    "sonar": "sonar-scanner"
+    "sonar": "sonar-scanner -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${SONAR_TOKEN}"
   },
   "dependencies": {
     "@types/joi": "^17.2.3",
