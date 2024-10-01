@@ -21,7 +21,7 @@
     "docker:down": "docker-compose down",
     "test": "jest",
     "coverage": "jest --coverage",
-    "sonar": "sonar-scanner -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN -Dsonar.projectKey=jennyffermorais_fast-food-app -Dsonar.organization=pos-tech-fast-food"
+    "sonar": "sonar-scanner -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN -Dsonar.projectKey=jennyffermorais_fast-food-app -Dsonar.organization=pos-tech-fast-food -Dsonar.exclusions=pipeline.yaml"
   },
   "dependencies": {
     "@types/joi": "^17.2.3",
