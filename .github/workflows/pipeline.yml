@@ -83,20 +83,57 @@ jobs:
     - name: Build application
       run: npm run build
 
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v4.4.0
-      with:
-        name: build-artifact
-        path: dist/
-
   deploy:
+    name: Build and Deploy Docker Image
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    environment:
-      name: prod
-    needs: build
+
     steps:
-      - name: Deploy
-        shell: bash
+      # Instalar Docker Compose
+      - name: Install Docker Compose
         run: |
-          echo "Deploy PROD"
+          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+          docker-compose --version
+
+      # Configurar credenciais da AWS
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ID }}
+          aws-region: us-east-1
+
+      # Build da imagem Docker
+      - name: Build Docker Image
+        run: docker-compose up --build
+
+      # Obter o ID da imagem Docker criada
+      - name: Get Docker Image ID
+        id: image_id
+        run: echo "::set-output name=image_id::$(docker images | grep fiap | awk '{print $3}' | uniq)"
+
+      # Obter o ID da conta AWS
+      - name: Get AWS Account ID
+        id: aws_account
+        run: echo "::set-output name=account_id::$(aws sts get-caller-identity --query Account --output text)"
+
+      # Login no Amazon ECR
+      - name: Login to Amazon ECR
+        run: |
+          aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin ${{ steps.aws_account.outputs.account_id }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
+
+      # Tag da imagem Docker
+      - name: Tag Docker Image
+        run: docker tag ${{ steps.image_id.outputs.image_id }} ${{ steps.aws_account.outputs.account_id }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/fiap_fast_food_app:1.0
+
+      # Push da imagem Docker para o ECR
+      - name: Push Docker Image to ECR
+        run: docker push ${{ steps.aws_account.outputs.account_id }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/fiap_fast_food_app:1.0
+
+      # Atualizar kubeconfig para o cluster EKS
+      - name: Update kubeconfig for EKS
+        run: aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name fiap_fast_food_eks
+
+      # Aplicar mudanças no Kubernetes (implementar ou atualizar a aplicação)
+      - name: Deploy to EKS
+        run: kubectl apply -f kubernetes/Application
