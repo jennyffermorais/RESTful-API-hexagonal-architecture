@@ -6,7 +6,7 @@
   <!-- <a href="https://restfullapihexagonalarchitecture.netlify.com">Demo</a> -->
 </div>
 
-<h1 align="center">Restfull Api Hexagonal Architecture</h1>
+<h1 align="center">Restfull Api - Tech Challenge</h1>
 
 <p align="center">
   <img alt="Principal linguagem do projeto" src="https://img.shields.io/github/languages/top/jennyffermorais/restfull-api-hexagonal-architecture?color=56BEB8">
@@ -124,11 +124,50 @@ Os diagramas foram desenhados seguindo os padrões explicados na aula e utilizan
 
 A aplicação está configurada para utilizar MySQL conforme especificado no arquivo `docker-compose.yml`.
 
+## Arquitetura Kubernetes
+
+![arquitetura-kubernetes](image-1.png)
+
+
+## Executando em Kubernetes
+
+Para simular um ambiente Kubernetes, siga os passos abaixo:
+
+1. **Habilitar Kubernetes no Docker Desktop**
+   - Certifique-se de que a função Kubernetes está habilitada no Docker Desktop.
+
+2. **Instalar a Ferramenta Kubectl**
+   - Se ainda não tiver o `kubectl` instalado, siga as instruções [aqui](https://kubernetes.io/docs/tasks/tools/install-kubectl/).
+
+##### Criar os Recursos do Banco de Dados MySQL
+
+Para criar os recursos necessários para o banco de dados MySQL, execute o seguinte comando:
+
+`kubectl apply -f kubernetes/MySQL`
+
+##### Criar os Recursos da Aplicação
+Para criar os recursos necessários para a aplicação, execute o seguinte comando:
+
+`kubectl apply -f kubernetes/Application`
+
+##### Acessar a Aplicação
+Após a criação dos recursos, a aplicação estará disponível no seguinte endereço:
+
+`http://localhost:3000`
+
+
+## Vídeo Apresentação Arquitetura
+
+O vídeo de apresentação do projeto está disponível no YouTube. Nele, detalhamos a arquitetura do cluster Kubernetes e explicamos os principais componentes e configurações envolvidos.
+
+[Vídeo de apresentação](https://youtu.be/oenyOGW2zEU)
+
+
 ## :memo: Equipe 43
 
 - [Felipe Carmo](https://github.com/carmof)
-- [Guilherme de Lima](https://github.com/usuario2)
-- [Jennyffer de Morais](https://github.com/GuilhermeLimaSoares)
+- [Guilherme de Lima](https://github.com/GuilhermeLimaSoares)
+- [Jennyffer de Morais](https://github.com/jennyffermorais)
 - [Paulo Pupo](https://github.com/devpupo)
 
 &#xa0;

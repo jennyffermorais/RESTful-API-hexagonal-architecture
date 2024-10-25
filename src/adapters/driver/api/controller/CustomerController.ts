@@ -1,11 +1,17 @@
 import { Body, Delete, Get, Path, Post, Put, Query, Res, Route, Tags, TsoaResponse } from 'tsoa';
 import { ICustomerService } from '../../../../core/applications/ports/services/ICustomerService';
 import { CreateCustomerDto, UpdateCustomerDto } from './dto/CustomerDto';
+import { CustomerGateway } from '../../../gateway/Customer';
+import { CustomerUseCase } from '../../../../core/usecases/Customer';
+import { CreateCustomerEntity } from '../../../../core/entities/CreateCustomer';
+import { IRepository } from '../../../../core/applications/ports/repositories/IRepository';
+import { CustomerEntity } from '../../../../core/entities/Customer';
 
 @Route('customers')
 @Tags('Customers')
 export class CustomerController {
   private customerService: ICustomerService;
+  private customerRepository: IRepository<CustomerEntity>;
 
   constructor(customerService: ICustomerService) {
     this.customerService = customerService;
@@ -17,8 +23,10 @@ export class CustomerController {
     @Res() notFoundResponse: TsoaResponse<404, { message: string }>,
     @Res() internalErrorResponse: TsoaResponse<500, { message: string }>
   ): Promise<any> {
+    const customerGateway = new CustomerGateway(this.customerRepository);
+    const useCase = new CustomerUseCase(customerGateway);
     try {
-      const customer = await this.customerService.create(createCustomerDto);
+      const customer = useCase.create(createCustomerDto.name, createCustomerDto.documentNum, createCustomerDto.dateBirthday, createCustomerDto.email);
       return customer;
     } catch (error) {
       return internalErrorResponse(500, { message: 'Internal server error' });
@@ -32,8 +40,10 @@ export class CustomerController {
     @Res() notFoundResponse: TsoaResponse<404, { message: string }>,
     @Res() internalErrorResponse: TsoaResponse<500, { message: string }>
   ): Promise<any> {
+    const customerGateway = new CustomerGateway(this.customerRepository);
+    const useCase = new CustomerUseCase(customerGateway);
     try {
-      const customer = await this.customerService.update(Number(id), updateCustomerDto);
+      const customer = await useCase.update(Number(id), String(updateCustomerDto.name), String(updateCustomerDto.documentNum), String(updateCustomerDto.dateBirthday), String(updateCustomerDto.email));
       if (!customer) {
         return notFoundResponse(404, { message: 'Csutomer not found' });
       }
@@ -49,8 +59,10 @@ export class CustomerController {
     @Res() notFoundResponse: TsoaResponse<404, { message: string }>,
     @Res() internalErrorResponse: TsoaResponse<500, { message: string }>
   ): Promise<any> {
+    const customerGateway = new CustomerGateway(this.customerRepository);
+    const useCase = new CustomerUseCase(customerGateway);
     try {
-      const success = await this.customerService.delete(Number(id));
+      const success = await useCase.delete(Number(id));
       if (!success) {
         return notFoundResponse(404, { message: 'Customer not found' });
       }
@@ -65,8 +77,10 @@ export class CustomerController {
     @Res() notFoundResponse: TsoaResponse<404, { message: string }>,
     @Res() internalErrorResponse: TsoaResponse<500, { message: string }>
   ): Promise<any> {
+    const customerGateway = new CustomerGateway(this.customerRepository);
+    const useCase = new CustomerUseCase(customerGateway);
     try {
-      const customer = await this.customerService.getById(Number(id));
+      const customer = await useCase.getById(Number(id));
       if (!customer) {
         return notFoundResponse(404, { message: 'Customer not found' });
       }
@@ -82,8 +96,10 @@ export class CustomerController {
     @Res() notFoundResponse: TsoaResponse<404, { message: string }>,
     @Res() internalErrorResponse: TsoaResponse<500, { message: string }>
   ): Promise<any> {
+    const customerGateway = new CustomerGateway(this.customerRepository);
+    const useCase = new CustomerUseCase(customerGateway);
     try {
-      const customer = await this.customerService.getCustomerByDocument(documentNum);
+      const customer = await useCase.getCustomerByDocument(documentNum);
       if (!customer) {
         return notFoundResponse(404, { message: 'Customer not found' });
       }
@@ -98,8 +114,10 @@ export class CustomerController {
     @Query() documentNum: string,
     @Res() internalErrorResponse: TsoaResponse<500, { message: string }>
   ): Promise<any> {
+    const customerGateway = new CustomerGateway(this.customerRepository);
+    const useCase = new CustomerUseCase(customerGateway);
     try {
-      const customers = await this.customerService.getAll({ documentNum });
+      const customers = await useCase.getAll({ documentNum });
       return customers;
     } catch (error) {
       return internalErrorResponse(500, { message: 'Internal server error' });

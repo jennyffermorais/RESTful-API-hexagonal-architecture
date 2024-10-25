@@ -13,7 +13,7 @@ const orderProductRepository = new TypeORMRepository<OrderProduct>(AppDataSource
 const orderService = new OrderService(orderRepository, orderProductRepository);
 
 const paymentService = new PaymentServiceACL();
-const paymentController = new PaymentController(paymentService, orderService);
+const paymentController = new PaymentController();
 
 const paymentRoute = Router();
 
