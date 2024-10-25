@@ -20,20 +20,6 @@ spec:
         envFrom:
         - configMapRef:
             name: app-configmap
-        livenessProbe:
-            httpGet:
-              path: /docs
-              port: 3000
-            periodSeconds: 10
-            failureThreshold: 3
-            initialDelaySeconds: 20
-        readinessProbe:
-            httpGet:
-              path: /docs
-              port: 3000
-            periodSeconds: 10
-            failureThreshold: 5
-            initialDelaySeconds: 10
         resources:
             requests:
               cpu: 400m
