@@ -120,5 +120,5 @@ jobs:
           aws eks update-kubeconfig --name fast-food-project
           kubectl get deployments
 
-          kubectl apply -f kubernetes/Application
+          kubectl apply -f kubernetes/App
           kubectl set image deployment/app-node-18 app-node-18=${{ secrets.DOCKERHUB_USERNAME }}/app-node-18:latest
